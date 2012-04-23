@@ -1,8 +1,9 @@
 import transaction
-from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
-
 import ptah
 from ptah.testing import PtahTestCase
+from pyramid.httpexceptions import HTTPNotFound, HTTPForbidden
+
+import ptahcms
 
 
 class TestLoadApi(PtahTestCase):

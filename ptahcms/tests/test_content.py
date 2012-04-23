@@ -9,7 +9,11 @@ from ptah.testing import PtahTestCase
 
 class TestContent(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def _make_app(self):
+        import ptahcms
+
         global ApplicationRoot
         class ApplicationRoot(ptahcms.ApplicationRoot):
             __type__ = ptahcms.Type('app')
@@ -77,7 +81,7 @@ class TestContent(PtahTestCase):
         self.assertTrue(content.modified != content.created)
 
     def test_content_set_owner_on_create(self):
-        import ptah, ptahcms
+        import ptahcms
 
         class MyContent(ptahcms.Content):
             __mapper_args__ = {'polymorphic_identity': 'mycontent'}
@@ -95,7 +99,7 @@ class TestContent(PtahTestCase):
         self.assertEqual(content.__owner__, 'user')
 
     def test_content_info(self):
-        import ptah, ptahcms
+        import ptahcms
 
         class MyContent(ptahcms.Content):
             __mapper_args__ = {'polymorphic_identity': 'mycontent'}
@@ -119,7 +123,7 @@ class TestContent(PtahTestCase):
         self.assertIn('description', info)
 
     def test_content_update(self):
-        import ptah, ptahcms
+        import ptahcms
 
         class MyContent(ptahcms.Content):
             __type__ = ptahcms.Type('mycontent', 'MyContent')
@@ -138,7 +142,7 @@ class TestContent(PtahTestCase):
         self.assertTrue(content.modified > modified)
 
     def test_content_delete(self):
-        import ptah, ptahcms
+        import ptahcms
 
         class MyContent(ptahcms.Content):
             __type__ = ptahcms.Type('mycontent', 'MyContent')

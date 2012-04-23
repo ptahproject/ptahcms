@@ -1,4 +1,5 @@
 import ptah
+import ptahcms
 import ptahcms as cms
 from ptah.testing import PtahTestCase
 from zope import interface
@@ -11,6 +12,7 @@ from pyramid.view import render_view_to_response
 class TestAppsModule(PtahTestCase):
 
     _init_ptah = False
+    _includes = ('ptahcms',)
 
     def setUp(self):
         global TestApp1, TestApp2
@@ -96,7 +98,7 @@ class TestAppsModule(PtahTestCase):
 
         request = DummyRequest()
         request.request_iface = self.registry.getUtility(
-            IRouteRequest, name=ptah.manage.MANAGE_APP_ROUTE)
+            IRouteRequest, name=ptahcms.manage.MANAGE_APP_ROUTE)
         interface.directlyProvides(request, request.request_iface)
         mod = ApplicationsModule(None, request)
 
@@ -110,6 +112,7 @@ class TestAppsModule(PtahTestCase):
 class TestAppSharingForm(PtahTestCase):
 
     _init_ptah = False
+    _includes = ('ptahcms',)
 
     def setUp(self):
         global TestApp1, TestApp2

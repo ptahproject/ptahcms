@@ -21,7 +21,7 @@ def typeInfoResolver(uri):
        :Parameters:
          - type scheme, e.g. blob-sql
        :Returns:
-         - :py:class:`ptah.cms.TypeInformation`
+         - :py:class:`ptahcms.TypeInformation`
     """
     return config.get_cfg_storage(TYPES_DIR_ID).get(uri[4:])
 
@@ -57,7 +57,7 @@ def Type(name, title=None, fieldset=None, **kw):
 
     .. code-block:: python
 
-        class MyContent(ptah.cms.Content):
+        class MyContent(ptahcms.Content):
 
             __type__ = Type('My content')
 

@@ -61,7 +61,7 @@ class Record(object):
 
 @view_config(
     context=ModelModule, wrapper=ptah.wrap_layout(),
-    renderer='ptah.manage:templates/models.pt')
+    renderer='ptahcms.manage:templates/models.pt')
 
 class ModelModuleView(ptah.View):
 
@@ -81,7 +81,7 @@ class ModelModuleView(ptah.View):
 
 @view_config(
     context=Model, wrapper=ptah.wrap_layout(),
-    renderer='ptah.manage:templates/model.pt')
+    renderer='ptahcms.manage:templates/model.pt')
 
 class ModelView(form.Form):
 
@@ -160,7 +160,7 @@ class ModelView(form.Form):
 @view_config(
     'add.html',
     context=Model, wrapper=ptah.wrap_layout(),
-    renderer='ptah.manage:templates/model-add.pt')
+    renderer='ptahcms.manage:templates/model-add.pt')
 
 class AddRecord(form.Form):
     __doc__ = "Add model record."
@@ -203,7 +203,7 @@ class AddRecord(form.Form):
 
 @view_config(
     context=Record, wrapper=ptah.wrap_layout(),
-    renderer='ptah.manage:templates/model-edit.pt')
+    renderer='ptahcms.manage:templates/model-edit.pt')
 
 class EditRecord(form.Form):
     __doc__ = "Edit model record."

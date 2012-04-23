@@ -6,7 +6,11 @@ from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 
 class TestAddForm(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def setUp(self):
+        import ptahcms
+
         global Content, Container
         class Content(ptahcms.Content):
             __type__ = ptahcms.Type('content', 'Test Content')
@@ -22,6 +26,7 @@ class TestAddForm(PtahTestCase):
         super(TestAddForm, self).setUp()
 
     def test_addform_ctor(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -29,6 +34,7 @@ class TestAddForm(PtahTestCase):
         self.assertIs(form.container, container)
 
     def test_addform_basics(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -41,6 +47,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(form.description, Content.__type__.description)
 
     def test_addform_choosename(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -51,6 +58,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(name, 'test-title')
 
     def test_addform_choosename_existing(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -62,6 +70,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(name, 'test-title-1')
 
     def test_addform_choosename_suffix(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -73,6 +82,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(name, 'test-title.html')
 
     def test_addform_update_suffix_from_type(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -91,6 +101,7 @@ class TestAddForm(PtahTestCase):
         Content.__type__.permission = ptahcms.NOT_ALLOWED
 
     def test_addform_update_type_check_context(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -103,6 +114,7 @@ class TestAddForm(PtahTestCase):
         self.assertRaises(HTTPForbidden, form.update)
 
     def test_addform_name_widgets(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         form = AddForm(Container(), DummyRequest())
@@ -115,6 +127,7 @@ class TestAddForm(PtahTestCase):
         self.assertIn('__name__', form.name_widgets)
 
     def test_addform_no_name_widgets(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         form = AddForm(Container(), DummyRequest())
@@ -127,6 +140,7 @@ class TestAddForm(PtahTestCase):
         self.assertIsNone(form.name_widgets)
 
     def test_addform_validate_name(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         container = Container()
@@ -150,6 +164,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(len(errors), 0)
 
     def test_addform_extract_with_errors(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         form = AddForm(Container(), DummyRequest(
@@ -168,6 +183,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(errors[1].msg, "Names cannot contain '/'")
 
     def test_addform_extract_with_errors_no_name(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         form = AddForm(Container(), DummyRequest(
@@ -185,6 +201,7 @@ class TestAddForm(PtahTestCase):
         self.assertEqual(errors[0].msg, 'Required')
 
     def test_addform_extract(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         form = AddForm(Container(), DummyRequest(
@@ -204,6 +221,7 @@ class TestAddForm(PtahTestCase):
         self.assertIn('__name__', data)
 
     def test_addform_extract_no_name(self):
+        import ptahcms
         from ptahcms.forms import AddForm
 
         form = AddForm(Container(), DummyRequest(
@@ -223,6 +241,7 @@ class TestAddForm(PtahTestCase):
         self.assertIn('description', data)
 
     def test_addform_create_empty_name(self):
+        import ptahcms
         from ptahcms.forms import AddForm
         ptah.auth_service.set_userid(ptah.SUPERUSER_URI)
 
@@ -239,6 +258,7 @@ class TestAddForm(PtahTestCase):
         self.assertIsInstance(content, Content)
 
     def test_addform_create(self):
+        import ptahcms
         from ptahcms.forms import AddForm
         ptah.auth_service.set_userid(ptah.SUPERUSER_URI)
 
@@ -255,6 +275,7 @@ class TestAddForm(PtahTestCase):
         self.assertIsInstance(content, Content)
 
     def test_addform_add(self):
+        import ptahcms
         from ptahcms.forms import AddForm
         ptah.auth_service.set_userid(ptah.SUPERUSER_URI)
 
@@ -279,6 +300,7 @@ class TestAddForm(PtahTestCase):
                       ptah.view.render_messages(request))
 
     def test_addform_add_errors(self):
+        import ptahcms
         from ptahcms.forms import AddForm
         ptah.auth_service.set_userid(ptah.SUPERUSER_URI)
 
@@ -295,6 +317,7 @@ class TestAddForm(PtahTestCase):
                       ptah.view.render_messages(request))
 
     def test_addform_cancel(self):
+        import ptahcms
         from ptahcms.forms import AddForm
         ptah.auth_service.set_userid(ptah.SUPERUSER_URI)
 
@@ -315,7 +338,11 @@ class TestAddForm(PtahTestCase):
 
 class TestEditForm(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def setUp(self):
+        import ptahcms
+
         global Content, Container
         class Content(ptahcms.Content):
             __type__ = ptahcms.Type('content', 'Test Content')

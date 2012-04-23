@@ -1,10 +1,13 @@
 import transaction
 from io import BytesIO
 from pyramid.compat import bytes_, binary_type, text_type
+import ptah
 from ptah.testing import PtahTestCase
 
 
 class TestBlob(PtahTestCase):
+
+    _includes = ('ptahcms',)
 
     def test_blob(self):
         import ptahcms
@@ -43,7 +46,7 @@ class TestBlob(PtahTestCase):
         self.assertEqual(info['mimetype'], 'text/plain')
 
     def test_blob_resolver(self):
-        import ptah
+        import ptahcms
 
         blob = ptahcms.blob_storage.add(BytesIO(bytes_('blob data','utf-8')))
 
@@ -56,7 +59,7 @@ class TestBlob(PtahTestCase):
         self.assertEqual(blob.read(), bytes_('blob data','utf-8'))
 
     def test_blob_with_parent(self):
-        import ptah
+        import ptahcms
 
         class MyContent(ptahcms.Node):
             __name__ = ''
@@ -78,7 +81,7 @@ class TestBlob(PtahTestCase):
         self.assertEqual(blob.__uri__, blob_uri)
 
     def test_blob_write(self):
-        import ptah
+        import ptahcms
 
         blob_uri = ptahcms.blob_storage.add(
             BytesIO(bytes_('blob data','utf-8'))).__uri__

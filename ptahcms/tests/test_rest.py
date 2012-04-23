@@ -12,6 +12,7 @@ class RestBase(PtahTestCase):
     _allow = True
     _init_ptah = False
     _cleanup_mod = False
+    _includes = ('ptahcms',)
 
     def _check_perm(self, perm, content, request=None, throw=False):
         return self._allow

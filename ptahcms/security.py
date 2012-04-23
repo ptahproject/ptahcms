@@ -2,6 +2,7 @@ import inspect
 from pyramid.compat import string_types
 
 import ptah
+import ptahcms
 from ptah import config
 from ptahcms.permissions import View
 from ptahcms.interfaces import NotFound, Forbidden
@@ -9,9 +10,9 @@ from ptahcms.interfaces import NotFound, Forbidden
 
 def wrap(content):
     if isinstance(content, string_types):
-        content = ptah.cms.load(content)
+        content = ptahcms.load(content)
     else:
-        ptah.cms.load_parents(content)
+        ptahcms.load_parents(content)
 
     if content is None:
         raise NotFound()

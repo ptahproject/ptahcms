@@ -36,7 +36,7 @@ class ApplicationsModule(manage.PtahModule):
 
 @view_config(
     context=ApplicationsModule, wrapper=ptah.wrap_layout(),
-    renderer='ptah.manage:templates/apps.pt')
+    renderer='ptahcms.manage:templates/apps.pt')
 
 class ApplicationsModuleView(ptah.View):
     """ Applications module default view """
@@ -52,7 +52,7 @@ class ApplicationsModuleView(ptah.View):
 @ptah.layout(
     'ptah-manage', manage.PtahManageRoute,
     route_name=MANAGE_APP_ROUTE,
-    renderer="ptah.manage:templates/ptah-manage.pt")
+    renderer="ptahcms.manage:templates/ptah-manage.pt")
 
 class AppLayout(manage.LayoutManage):
     """ Application module layout """
@@ -61,7 +61,7 @@ class AppLayout(manage.LayoutManage):
 @ptah.layout(
     '', ptahcms.Node, parent="ptah-manage",
     route_name=MANAGE_APP_ROUTE,
-    renderer="ptah.manage:templates/apps-layout.pt")
+    renderer="ptahcms.manage:templates/apps-layout.pt")
 
 class AppContentLayout(ptah.View):
     """ Application module content layout """
@@ -75,7 +75,7 @@ class AppContentLayout(ptah.View):
     context=ptahcms.Content,
     wrapper=ptah.wrap_layout(),
     route_name=MANAGE_APP_ROUTE,
-    renderer="ptah.manage:templates/apps-contentview.pt")
+    renderer="ptahcms.manage:templates/apps-contentview.pt")
 
 class ViewForm(form.DisplayForm):
 
@@ -95,7 +95,7 @@ class ViewForm(form.DisplayForm):
     'sharing.html',
     context=ptahcms.IContent,
     route_name=MANAGE_APP_ROUTE, wrapper=ptah.wrap_layout(),
-    renderer='ptah.manage:templates/apps-sharing.pt')
+    renderer='ptahcms.manage:templates/apps-sharing.pt')
 
 class SharingForm(form.Form):
     """ Sharing form """

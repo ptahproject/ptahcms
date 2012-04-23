@@ -8,7 +8,11 @@ from ptah.testing import PtahTestCase
 
 class TestTraverser(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def setUp(self):
+        import ptahcms
+
         global ApplicationRoot
         class ApplicationRoot(ptahcms.ApplicationRoot):
             __type__ = ptahcms.Type('traverserapp')

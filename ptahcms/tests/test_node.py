@@ -1,5 +1,8 @@
 import transaction
+import ptah
 from ptah.testing import PtahTestCase
+
+import ptahcms
 
 
 class TestNode(PtahTestCase):

@@ -6,8 +6,10 @@ from pyramid.view import render_view_to_response
 
 class TestRestInspectorModule(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def test_rest_module(self):
-        from ptah.manage.rest import RestModule
+        from ptahcms.manage.rest import RestModule
         from ptah.manage.manage import PtahManageRoute
 
         request = DummyRequest()
@@ -21,7 +23,7 @@ class TestRestInspectorModule(PtahTestCase):
         self.assertIsInstance(mod, RestModule)
 
     def test_view_view(self):
-        from ptah.manage.rest import RestModule, RestModuleView
+        from ptahcms.manage.rest import RestModule, RestModuleView
 
         request = DummyRequest()
 

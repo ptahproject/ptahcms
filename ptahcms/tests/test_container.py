@@ -6,7 +6,11 @@ from ptah.testing import PtahTestCase
 
 class TestContainer(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def setUp(self):
+        import ptahcms
+
         global TestCMSContent, TestCMSContainer
         class TestCMSContent(ptahcms.Content):
             __type__ = ptahcms.Type('content', 'Test Content')
@@ -379,6 +383,8 @@ class TestContainer(PtahTestCase):
         self.assertIs(container['content'], content)
 
     def test_container_create(self):
+        import ptahcms
+
         container = self.Container(__name__='container', __path__='/container/')
 
         self.assertRaises(

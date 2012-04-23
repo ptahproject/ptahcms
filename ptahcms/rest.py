@@ -5,6 +5,8 @@ from pyramid.compat import bytes_
 
 import ptah
 from ptah import config
+
+import ptahcms
 from ptahcms import wrap
 from ptahcms import RestService
 from ptahcms.node import load

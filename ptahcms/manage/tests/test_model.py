@@ -11,6 +11,8 @@ from pyramid.view import render_view_to_response
 
 class Base(PtahTestCase):
 
+    _includes = ('ptahcms',)
+
     def setUp(self):
         global Content1, Content2
         class Content1(cms.Content):
@@ -36,7 +38,7 @@ class Base(PtahTestCase):
 class TestModelModule(Base):
 
     def test_model_module(self):
-        from ptah.manage.model import ModelModule
+        from ptahcms.manage.model import ModelModule
         from ptah.manage.manage import PtahManageRoute
 
         request = DummyRequest()
@@ -50,7 +52,7 @@ class TestModelModule(Base):
         self.assertIsInstance(mod, ModelModule)
 
     def test_model_view(self):
-        from ptah.manage.model import ModelModule, ModelModuleView
+        from ptahcms.manage.model import ModelModule, ModelModuleView
 
         request = DummyRequest()
 
@@ -62,7 +64,7 @@ class TestModelModule(Base):
         self.assertIn('content2', res.text)
 
     def test_model_view_disabled(self):
-        from ptah.manage.model import ModelModule, ModelModuleView
+        from ptahcms.manage.model import ModelModule, ModelModuleView
 
         cfg = ptah.get_settings(ptah.CFG_ID_PTAH, self.registry)
         cfg['disable_models'] = ['cms-type:content2']
@@ -77,7 +79,7 @@ class TestModelModule(Base):
         self.assertNotIn('content2', res.text)
 
     def test_model_traverse(self):
-        from ptah.manage.model import ModelModule, Model
+        from ptahcms.manage.model import ModelModule, Model
 
         request = DummyRequest()
 
@@ -97,7 +99,7 @@ class TestModelModule(Base):
 class TestModel(Base):
 
     def test_model_traverse(self):
-        from ptah.manage.model import ModelModule, Record
+        from ptahcms.manage.model import ModelModule, Record
 
         content = Content1()
         content.title = 'Content test'
@@ -121,7 +123,7 @@ class TestModel(Base):
         self.assertRaises(KeyError, model.__getitem__, 'unknown')
 
     def test_model_remove_errors(self):
-        from ptah.manage.model import ModelModule, ModelView
+        from ptahcms.manage.model import ModelModule, ModelView
 
         mod = ModelModule(None, DummyRequest())
         model = mod['content1']
@@ -136,7 +138,7 @@ class TestModel(Base):
                       ptah.view.render_messages(form.request))
 
     def test_model_remove(self):
-        from ptah.manage.model import ModelModule, ModelView
+        from ptahcms.manage.model import ModelModule, ModelView
 
         content = Content1()
         content.title = 'Content test'
@@ -169,7 +171,7 @@ class TestModel(Base):
         self.assertIsNone(rec)
 
     def test_model_list(self):
-        from ptah.manage.model import ModelModule, ModelView
+        from ptahcms.manage.model import ModelModule, ModelView
 
         content = Content1()
         content.title = 'Content test'
@@ -196,7 +198,7 @@ class TestModel(Base):
         self.assertIn('value="%s"'%rowid, res.text)
 
     def test_model_add(self):
-        from ptah.manage.model import ModelModule, ModelView
+        from ptahcms.manage.model import ModelModule, ModelView
 
         mod = ModelModule(None, DummyRequest())
         model = mod['content1']
@@ -213,7 +215,7 @@ class TestModel(Base):
 class TestAddRecord(Base):
 
     def test_model_add_errors(self):
-        from ptah.manage.model import ModelModule, AddRecord
+        from ptahcms.manage.model import ModelModule, AddRecord
 
         mod = ModelModule(None, DummyRequest())
         model = mod['content1']
@@ -227,7 +229,7 @@ class TestAddRecord(Base):
                       ptah.view.render_messages(form.request))
 
     def test_model_add_back(self):
-        from ptah.manage.model import ModelModule, AddRecord
+        from ptahcms.manage.model import ModelModule, AddRecord
 
         mod = ModelModule(None, DummyRequest())
         model = mod['content1']
@@ -241,7 +243,7 @@ class TestAddRecord(Base):
         self.assertEqual(res.headers['location'], '.')
 
     def test_model_add(self):
-        from ptah.manage.model import ModelModule, AddRecord
+        from ptahcms.manage.model import ModelModule, AddRecord
 
         mod = ModelModule(None, DummyRequest())
         model = mod['content1']
@@ -266,7 +268,7 @@ class TestAddRecord(Base):
         self.assertEqual(content.title, 'Test content')
 
     def test_model_add_node(self):
-        from ptah.manage.model import ModelModule, AddRecord
+        from ptahcms.manage.model import ModelModule, AddRecord
 
         mod = ModelModule(None, DummyRequest())
         model = mod['content2']
@@ -293,7 +295,7 @@ class TestAddRecord(Base):
 class TestEditRecord(Base):
 
     def test_model_edit_back(self):
-        from ptah.manage.model import ModelModule, EditRecord
+        from ptahcms.manage.model import ModelModule, EditRecord
 
         content = Content1()
         content.title = 'Content test'
@@ -317,7 +319,7 @@ class TestEditRecord(Base):
         self.assertEqual(res.headers['location'], '../')
 
     def test_model_edit_errors(self):
-        from ptah.manage.model import ModelModule, EditRecord
+        from ptahcms.manage.model import ModelModule, EditRecord
 
         content = Content1()
         content.title = 'Content test'
@@ -341,7 +343,7 @@ class TestEditRecord(Base):
                       ptah.view.render_messages(form.request))
 
     def test_model_edit(self):
-        from ptah.manage.model import ModelModule, EditRecord
+        from ptahcms.manage.model import ModelModule, EditRecord
 
         content = Content1()
         content.title = 'Content test'
@@ -374,7 +376,7 @@ class TestEditRecord(Base):
         self.assertEqual(content.title, 'Content')
 
     def test_model_edit_node(self):
-        from ptah.manage.model import ModelModule, EditRecord
+        from ptahcms.manage.model import ModelModule, EditRecord
 
         content = Content2()
         content.title = 'Content test'

@@ -19,7 +19,7 @@ class BaseContent(Node):
 
     .. attribute:: __path__
 
-       A string used by the :py:class:`ptah.cms.ContentTraverser` which is
+       A string used by the :py:class:`ptahcms.ContentTraverser` which is
        used for efficient resolution of URL structure to content models.
        This is internal implementation and manually editing it can break
        your hierarchy.
@@ -40,14 +40,14 @@ class BaseContent(Node):
     .. attribute:: created
 
        Content creation time which is set by
-       :py:func:`ptah.cms.content.createdHandler` during object creation.
+       :py:func:`ptahcms.content.createdHandler` during object creation.
 
        :type: :py:class:`datetime.datetime`
 
     .. attribute:: modified
 
        Content modification time which is set by
-       :py:func:`ptah.cms.content.modifiedHandler` during object modification.
+       :py:func:`ptahcms.content.modifiedHandler` during object modification.
 
        :type: :py:class:`datetime.datetime`
 

@@ -1,5 +1,7 @@
 import transaction
-from ptah import cms, config
+import ptah
+import ptahcms as cms
+from ptah import config
 from ptah.testing import PtahTestCase
 from pyramid.exceptions import ConfigurationConflictError
 

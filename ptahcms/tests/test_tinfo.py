@@ -1,5 +1,6 @@
 import transaction
 import sqlalchemy as sqla
+import ptah
 from ptah import config, form
 from ptah.testing import PtahTestCase
 from pyramid.httpexceptions import HTTPForbidden
@@ -10,6 +11,7 @@ class TestTypeInfo(PtahTestCase):
 
     _init_auth = True
     _init_ptah = False
+    _includes = ('ptahcms',)
 
     def test_tinfo(self):
         import ptahcms

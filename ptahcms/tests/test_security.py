@@ -1,3 +1,4 @@
+import ptahcms
 from ptah import config
 from ptah.testing import PtahTestCase
 
