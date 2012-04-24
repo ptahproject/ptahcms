@@ -1,6 +1,0 @@
-<h4>${context['name']}
-  <small>
-    <a href="${manage_url}/source.html?pkg=${context['codeinfo'].module}#sl-${context['codeinfo'].lineno}">
-      ${context['id']}</a>
-</small></h4>
-<p tal:condition="context['provider'].__doc__">${context['provider'].__doc__}</p>

@@ -1,9 +1,0 @@
-<h4>${context['action'].title}
-  <small>
-    <a href="${manage_url}/source.html?pkg=${context['codeinfo'].module}#sl-${context['codeinfo'].lineno}">
-      ${context['action'].id}</a>
-  </small>
-</h4>
-<p tal:condition="context['action'].description">
-  ${context['action'].description}
-</p>

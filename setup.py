@@ -7,36 +7,23 @@ from setuptools import setup, find_packages
 version = '0.5.0'
 
 install_requires = ['setuptools',
-                    'alembic == 0.2.2',
-                    'Chameleon >= 2.6.1',
+                    'ptah',
                     'pyramid >= 1.3',
-                    'pyramid_tm',
                     'zope.interface >= 3.8.0',
-                    'zope.sqlalchemy >= 0.7.0',
-                    'transaction >= 1.2.0',
-                    'venusian >= 1.0a6',
-                    'WebOb >= 1.2b3',
                     'SQLAlchemy',
-                    'pytz',
                     ]
-
-if sys.version_info[:2] == (2, 6):
-    install_requires.extend((
-            'argparse',
-            'ordereddict',
-            'unittest2'))
 
 if sys.version_info[:2] in ((2,6),(2,7)):
     install_requires.extend(('simplejson',))
 
-tests_require = install_requires + ['nose', 'sphinx', 'Pygments']
+tests_require = install_requires + ['nose']
 
 
 def read(f):
     return open(os.path.join(os.path.dirname(__file__), f)).read().strip()
 
 
-setup(name='ptah',
+setup(name='ptahcms',
       version=version,
       description=('Ptah is a fast, fun, open source high-level '
                    'Python web development environment.'),
@@ -54,7 +41,7 @@ setup(name='ptah',
           'Topic :: Internet :: WWW/HTTP :: WSGI'],
       author='Ptah Project',
       author_email='ptahproject@googlegroups.com',
-      url='https://github.com/ptahproject/ptah/',
+      url='https://github.com/ptahproject/ptahcms/',
       license='BSD-derived',
       packages=find_packages(),
       install_requires=install_requires,
@@ -63,19 +50,8 @@ setup(name='ptah',
       test_suite='nose.collector',
       include_package_data=True,
       zip_safe=False,
-      entry_points={
-          'console_scripts': [
-              'ptah-manage = ptah.scripts.manage:main',
-              'ptah-migrate = ptah.scripts.migrate:main',
-              'ptah-populate = ptah.scripts.populate:main',
-              'ptah-settings = ptah.scripts.settings:main',
-              ],
-          'pyramid.scaffold': [
-              'ptah_starter = ptah.scaffolds:PtahStarterProjectTemplate',
-              ],
-          },
-      package_data={'migrations': ['ptah/migrations/*.py']},
-      message_extractors={'ptah': [
+      package_data={'migrations': ['ptahcms/migrations/*.py']},
+      message_extractors={'ptahcms': [
         ('migrations/**', 'ignore', None),
         ('scaffolds/**', 'ignore', None),
         ('scripts/**', 'ignore', None),

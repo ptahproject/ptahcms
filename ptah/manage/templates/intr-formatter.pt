@@ -1,9 +1,0 @@
-<h4>
-  <small>
-    <a href="${manage_url}/source.html?pkg=${context['codeinfo'].module}#sl-${context['codeinfo'].lineno}">
-      ${context['name']}
-    </a>
-  </small>
-</h4>
-<p tal:condition="context['description']">
-  ${structure: view.rst_to_html(context['description'])}</p>
