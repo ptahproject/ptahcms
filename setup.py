@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 version = '0.5.0'
 
 install_requires = ['setuptools',
-                    'ptah',
+                    'ptah >= 0.5.0',
                     'pyramid >= 1.3',
                     'zope.interface >= 3.8.0',
                     'SQLAlchemy',
