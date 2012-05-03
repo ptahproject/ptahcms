@@ -111,7 +111,7 @@ class TestRestApi(RestBase):
         info = cmsTypes(self.request)
 
         self.assertEqual(info[0]['name'], 'app')
-        self.assertEqual(info[0]['__uri__'], 'cms-type:app')
+        self.assertEqual(info[0]['__uri__'], 'type:app')
         self.assertEqual(len(info[0]['fieldset']), 2)
         self.assertEqual(info[0]['fieldset'][0]['name'], 'title')
         self.assertEqual(info[0]['fieldset'][1]['name'], 'description')
@@ -128,7 +128,7 @@ class TestRestApi(RestBase):
         factory = ptahcms.ApplicationFactory(
             ApplicationRoot, '/test', 'root', 'Root App', config=self.config)
         root = factory(request)
-        root.__uri__ = 'cms-app:test'
+        root.__uri__ = 'type-app:test'
         transaction.commit()
 
         self._allow = False
@@ -157,7 +157,7 @@ class TestRestApi(RestBase):
         factory = ptahcms.ApplicationFactory(
             ApplicationRoot, '/', 'root', 'Root App', config=self.config)
         root = factory(request)
-        root.__uri__ = 'cms-app:test'
+        root.__uri__ = 'type-app:test'
         transaction.commit()
 
         self._allow = False

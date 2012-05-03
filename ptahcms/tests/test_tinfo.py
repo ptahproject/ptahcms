@@ -25,11 +25,12 @@ class TestTypeInfo(PtahTestCase):
 
         all_types = ptah.get_types()
 
+        print all_types
         self.assertTrue('type:mycontent' in all_types)
 
         tinfo = ptah.get_type('type:mycontent')
 
-        self.assertEqual(tinfo.__uri__, 'cms-type:mycontent')
+        self.assertEqual(tinfo.__uri__, 'type:mycontent')
         self.assertEqual(tinfo.name, 'mycontent')
         self.assertEqual(tinfo.title, 'MyContent')
         self.assertEqual(tinfo.cls, MyContent)
@@ -195,10 +196,10 @@ class TestTypeInfo(PtahTestCase):
         self.init_ptah()
 
         self.assertEqual(
-            MyContent.__mapper_args__['polymorphic_identity'], 'cms-type:mycontent')
+            MyContent.__mapper_args__['polymorphic_identity'], 'type:mycontent')
 
         self.assertTrue(
-            MyContent.__uri_factory__().startswith('cms-mycontent:'))
+            MyContent.__uri_factory__().startswith('type-mycontent:'))
 
     def test_tinfo_resolver(self):
         import ptah, ptahcms
@@ -260,7 +261,7 @@ class TestTypeInfo(PtahTestCase):
 
         tinfo_uri = MyContent.__type__.__uri__
 
-        self.assertEqual(tinfo_uri, 'cms-type:mycontent2')
+        self.assertEqual(tinfo_uri, 'type:mycontent2')
         self.assertIs(ptah.resolve(tinfo_uri), MyContent.__type__)
 
     def test_names_filter(self):

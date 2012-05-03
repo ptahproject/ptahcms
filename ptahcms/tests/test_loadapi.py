@@ -13,11 +13,11 @@ class TestLoadApi(PtahTestCase):
         global Content, Container
         class Content(ptahcms.Content):
             __type__ = ptahcms.Type('content', 'Test Content')
-            __uri_factory__ = ptah.UriFactory('cms-content')
+            __uri_factory__ = ptah.UriFactory('type-content')
 
         class Container(ptahcms.Container):
             __type__ = ptahcms.Type('container', 'Test Container')
-            __uri_factory__ = ptah.UriFactory('cms-container')
+            __uri_factory__ = ptah.UriFactory('type-container')
 
         self.Content = Content
         self.Container = Container

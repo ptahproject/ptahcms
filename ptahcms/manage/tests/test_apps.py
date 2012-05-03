@@ -37,6 +37,7 @@ class TestAppsModule(PtahTestCase):
         mod = mr['apps']
 
         self.assertIsInstance(mod, ApplicationsModule)
+        self.assertTrue(mod.available())
 
     def test_apps_view(self):
         from ptahcms.manage.apps import ApplicationsModule

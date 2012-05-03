@@ -14,11 +14,11 @@ class TestContainer(PtahTestCase):
         global TestCMSContent, TestCMSContainer
         class TestCMSContent(ptahcms.Content):
             __type__ = ptahcms.Type('content', 'Test Content')
-            __uri_factory__ = ptah.UriFactory('cms-content')
+            __uri_factory__ = ptah.UriFactory('type-content')
 
         class TestCMSContainer(ptahcms.Container):
             __type__ = ptahcms.Type('container', 'Test Container')
-            __uri_factory__ = ptah.UriFactory('cms-container')
+            __uri_factory__ = ptah.UriFactory('type-container')
 
         self.Content = TestCMSContent
         self.Container = TestCMSContainer
@@ -52,6 +52,8 @@ class TestContainer(PtahTestCase):
         content_uri = content.__uri__
         container_uri = container.__uri__
         transaction.commit()
+
+        print container_uri
 
         container = ptah.resolve(container_uri)
         self.assertTrue('content' in container)

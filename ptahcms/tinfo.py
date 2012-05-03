@@ -14,29 +14,12 @@ from ptahcms.interfaces import ContentSchema
 log = logging.getLogger('ptahcms')
 
 
-@ptah.resolver('cms-type')
-def typeInfoResolver(uri):
-    """Type resolver
-
-       :Parameters:
-         - type scheme, e.g. blob-sql
-       :Returns:
-         - :py:class:`ptahcms.TypeInformation`
-    """
-    return config.get_cfg_storage(TYPES_DIR_ID).get(uri[4:])
-
-
 class TypeInformation(TypeInformation):
     """ Type information """
 
     schema = None
     global_allow = True
     addview = None # addview action, path relative to current container
-
-    def __init__(self, cls, name, **kw):
-        super(TypeInformation, self).__init__(cls, name, **kw)
-
-        self.__uri__ = 'cms-type:%s'%name
 
     def is_allowed(self, container):
         if not isinstance(container, BaseContainer):
@@ -77,8 +60,9 @@ def Type(name, title=None, fieldset=None, **kw):
         f_locals['__id__'] = sqla.Column(
             'id', sqla.Integer,
             sqla.ForeignKey('ptah_content.id'), primary_key=True)
+
     if '__uri_factory__' not in f_locals:
-        schema = 'cms-{0}'.format(name)
+        schema = 'type-{0}'.format(name)
         typeinfo.schema = schema
 
         f_locals['__uri_factory__'] = ptah.UriFactory(schema)
@@ -134,7 +118,7 @@ def register_type_impl(
 
     tinfo.cls = cls
 
-    config.get_cfg_storage(TYPES_DIR_ID)[tinfo.__uri__[4:]] = tinfo
+    config.get_cfg_storage(TYPES_DIR_ID)[tinfo.__uri__] = tinfo
 
     # sql query for content resolver
     cls.__uri_sql_get__ = ptah.QueryFreezer(

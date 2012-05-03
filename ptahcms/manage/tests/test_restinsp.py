@@ -22,6 +22,10 @@ class TestRestInspectorModule(PtahTestCase):
 
         self.assertIsInstance(mod, RestModule)
 
+        self.assertFalse(mod.available())
+        self.config.ptah_init_rest()
+        self.assertTrue(mod.available())
+
     def test_view_view(self):
         from ptahcms.manage.rest import RestModule, RestModuleView
 

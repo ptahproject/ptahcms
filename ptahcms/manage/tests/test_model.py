@@ -50,6 +50,7 @@ class TestModelModule(Base):
         mod = mr['models']
 
         self.assertIsInstance(mod, ModelModule)
+        self.assertTrue(mod.available())
 
     def test_model_view(self):
         from ptahcms.manage.model import ModelModule, ModelModuleView
@@ -67,7 +68,7 @@ class TestModelModule(Base):
         from ptahcms.manage.model import ModelModule, ModelModuleView
 
         cfg = ptah.get_settings(ptah.CFG_ID_PTAH, self.registry)
-        cfg['disable_models'] = ['cms-type:content2']
+        cfg['disable_models'] = ['type:content2']
 
         request = DummyRequest()
 
