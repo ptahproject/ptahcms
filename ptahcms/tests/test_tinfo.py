@@ -25,7 +25,6 @@ class TestTypeInfo(PtahTestCase):
 
         all_types = ptah.get_types()
 
-        print all_types
         self.assertTrue('type:mycontent' in all_types)
 
         tinfo = ptah.get_type('type:mycontent')

@@ -53,8 +53,6 @@ class TestContainer(PtahTestCase):
         container_uri = container.__uri__
         transaction.commit()
 
-        print container_uri
-
         container = ptah.resolve(container_uri)
         self.assertTrue('content' in container)
         self.assertEqual(container.keys(), ['content'])
