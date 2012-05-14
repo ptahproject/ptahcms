@@ -6,6 +6,7 @@ from pyramid.httpexceptions import HTTPFound
 import ptah
 from ptah import form
 from ptah.manage import get_manage_url
+from ptahcms.tinfo import TypeInformation
 
 
 @ptah.manage.module('models')
@@ -72,6 +73,8 @@ class ModelModuleView(ptah.View):
 
         types = []
         for ti in ptah.get_types().values():
+            if ti.__class__ is not TypeInformation:
+                continue
             if ti.__uri__ in cfg['disable_models']:
                 continue
             types.append((ti.title, ti))
