@@ -34,6 +34,16 @@ class TypeInformation(TypeInformation):
         return super(TypeInformation, self).list_types(container)
 
 
+class ClassAction(config.Action): # pragma: no cover
+
+    def __call__(self, cfg):
+        try:
+            self.callable(cfg, self.info.context, *self.args, **self.kw)
+        except:
+            log.exception(self.discriminator)
+            raise
+
+
 def Type(name, title=None, fieldset=None, **kw):
     """ Declare new type. This function has to be called within a content
     class declaration.
@@ -82,7 +92,7 @@ def Type(name, title=None, fieldset=None, **kw):
     intr['codeinfo'] = info.codeinfo
 
     info.attach(
-        config.ClassAction(
+        ClassAction(
             register_type_impl, (typeinfo, name, fieldset), kw,
             discriminator=discr, introspectables=(intr,)),
         depth=2)
