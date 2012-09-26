@@ -161,7 +161,7 @@ class ModelView(form.Form):
 
 
 @view_config(
-    'add.html',
+    name='add.html',
     context=Model, wrapper=ptah.wrap_layout(),
     renderer='ptahcms.manage:templates/model-add.pt')
 

@@ -92,7 +92,7 @@ class ViewForm(form.DisplayForm):
 
 
 @view_config(
-    'sharing.html',
+    name='sharing.html',
     context=ptahcms.IContent,
     route_name=MANAGE_APP_ROUTE, wrapper=ptah.wrap_layout(),
     renderer='ptahcms.manage:templates/apps-sharing.pt')
