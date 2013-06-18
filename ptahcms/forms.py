@@ -119,10 +119,6 @@ class AddForm(form.Form):
         return self.request.resource_url(content)
 
 
-ptah.snippet.register(
-    'form-actions', AddForm, renderer='ptahcms:form-actions.pt')
-
-
 class EditForm(form.Form):
 
     @reify

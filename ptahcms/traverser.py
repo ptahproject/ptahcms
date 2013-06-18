@@ -9,7 +9,6 @@ from ptahcms.content import BaseContent
 from ptahcms.interfaces import IApplicationRoot
 
 
-@ptah.adapter(IApplicationRoot)
 @interface.implementer(ITraverser)
 class ContentTraverser(object):
     """ Custom content traverser """

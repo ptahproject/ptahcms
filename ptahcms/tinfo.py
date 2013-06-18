@@ -4,7 +4,7 @@ import sqlalchemy as sqla
 
 import ptah
 from ptah import config
-from ptah.tinfo import TYPES_DIR_ID, TypeInformation
+from ptah.typeinfo import TYPES_DIR_ID, TypeInformation
 
 from ptahcms.content import Content
 from ptahcms.container import BaseContainer
