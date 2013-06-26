@@ -75,7 +75,8 @@ class BaseContent(Node):
 
     title = sqla.Column(sqla.Unicode(1024), default=text_type(''))
     description = sqla.Column(sqla.UnicodeText, default=text_type(''),
-                              info = {'missing': '', 'field_type': 'textarea'})
+                              info = {'missing': '', 'field_type': 'textarea',
+                                      'default': '', 'required': False})
 
     created = sqla.Column(sqla.DateTime)
     modified = sqla.Column(sqla.DateTime)
@@ -141,10 +142,10 @@ class BaseContent(Node):
 
     def _extra_info(self, info):
         if self.__type__:
-            fieldset = self.__type__.fieldset.bind()
+            fieldset = self.__type__.fieldset
             for field in fieldset.fields():
                 val = getattr(self, field.name, field.default)
-                info[field.name] = field.serialize(val)
+                info[field.name] = val
 
         info['created'] = self.created
         info['modified'] = self.modified

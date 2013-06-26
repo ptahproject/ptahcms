@@ -19,8 +19,7 @@ class RestModule(ptah.manage.PtahModule):
 
 @view_config(
     context=RestModule,
-    wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/rest.pt')
+    renderer=ptah.layout('ptahcms.manage:templates/rest.pt'))
 
 class RestModuleView(ptah.View):
 

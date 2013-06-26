@@ -61,8 +61,8 @@ class Record(object):
 
 
 @view_config(
-    context=ModelModule, wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/models.pt')
+    context=ModelModule,
+    renderer=ptah.layout('ptahcms.manage:templates/models.pt'))
 
 class ModelModuleView(ptah.View):
 
@@ -83,8 +83,8 @@ class ModelModuleView(ptah.View):
 
 
 @view_config(
-    context=Model, wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/model.pt')
+    context=Model,
+    renderer=ptah.layout('ptahcms.manage:templates/model.pt'))
 
 class ModelView(form.Form):
 
@@ -126,15 +126,15 @@ class ModelView(form.Form):
 
     def get_record_info(self, item):
         res = {}
-        for field in self.widgets.fields():
+        for field in self.fields.values():
             val = getattr(item, field.name, field.default)
-            res[field.name] = field.serialize(val)
+            res[field.name] = val
 
         return res
 
-    @form.button('Add', actype=form.AC_PRIMARY)
-    def add(self):
-        return HTTPFound(location='add.html')
+    #@form.button('Add', actype=form.AC_PRIMARY)
+    #def add(self):
+    #    return HTTPFound(location='add.html')
 
     @form.button('Remove', actype=form.AC_DANGER)
     def remove(self):
@@ -148,7 +148,7 @@ class ModelView(form.Form):
                 pass
 
         if not ids:
-            self.message('Please select records for removing.', 'warning')
+            self.request.add_message('Please select records for removing.', 'warning')
             return
 
         Session = ptah.get_session()
@@ -156,14 +156,14 @@ class ModelView(form.Form):
             self.context.tinfo.cls.__id__.in_(ids)).all():
             Session.delete(rec)
 
-        self.message('Select records have been removed.')
+        self.request.add_message('Select records have been removed.')
         return HTTPFound(location = self.request.url)
 
 
 @view_config(
     name='add.html',
-    context=Model, wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/model-add.pt')
+    context=Model,
+    renderer=ptah.layout('ptahcms.manage:templates/model-add.pt'))
 
 class AddRecord(form.Form):
     __doc__ = "Add model record."
@@ -179,7 +179,7 @@ class AddRecord(form.Form):
         data, errors = self.extract()
 
         if errors:
-            self.message(errors, 'form-error')
+            self.add_error_message(errors)
             return
 
         self.record = record = self.context.tinfo.create()
@@ -196,7 +196,7 @@ class AddRecord(form.Form):
         Session.add(record)
         Session.flush()
 
-        self.message('New record has been created.', 'success')
+        self.request.add_message('New record has been created.', 'success')
         return HTTPFound(location='./%s/'%record.__id__)
 
     @form.button('Back')
@@ -205,8 +205,8 @@ class AddRecord(form.Form):
 
 
 @view_config(
-    context=Record, wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/model-edit.pt')
+    context=Record,
+    renderer=ptah.layout('ptahcms.manage:templates/model-edit.pt'))
 
 class EditRecord(form.Form):
     __doc__ = "Edit model record."
@@ -237,7 +237,7 @@ class EditRecord(form.Form):
         data, errors = self.extract()
 
         if errors:
-            self.message(errors, 'form-error')
+            self.add_error_message(errors)
             return
 
         record = self.context.record
@@ -250,7 +250,7 @@ class EditRecord(form.Form):
                 if val is not form.null:
                     setattr(record, field.name, val)
 
-        self.message('Model record has been modified.', 'success')
+        self.request.add_message('Model record has been modified.', 'success')
 
     @form.button('Back')
     def back_handler(self):

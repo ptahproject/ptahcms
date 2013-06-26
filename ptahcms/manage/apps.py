@@ -35,8 +35,8 @@ class ApplicationsModule(manage.PtahModule):
 
 
 @view_config(
-    context=ApplicationsModule, wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/apps.pt')
+    context=ApplicationsModule,
+    renderer=ptah.layout('ptahcms.manage:templates/apps.pt'))
 
 class ApplicationsModuleView(ptah.View):
     """ Applications module default view """
@@ -49,35 +49,14 @@ class ApplicationsModuleView(ptah.View):
         self.factories = [f for _t, f in sorted(factories)]
 
 
-@ptah.layout(
-    'ptah-manage', manage.PtahManageRoute,
-    route_name=MANAGE_APP_ROUTE,
-    renderer="ptahcms.manage:templates/ptah-manage.pt")
-
-class AppLayout(manage.LayoutManage):
-    """ Application module layout """
-
-
-@ptah.layout(
-    '', ptahcms.Node, parent="ptah-manage",
-    route_name=MANAGE_APP_ROUTE,
-    renderer="ptahcms.manage:templates/apps-layout.pt")
-
-class AppContentLayout(ptah.View):
-    """ Application module content layout """
-
-    def update(self):
-        self.actions = ptah.list_uiactions(
-            self.context, self.request, MANAGE_APP_CATEGORY)
-
-
 @view_config(
     context=ptahcms.Content,
-    wrapper=ptah.wrap_layout(),
     route_name=MANAGE_APP_ROUTE,
-    renderer="ptahcms.manage:templates/apps-contentview.pt")
+    renderer=ptah.layout("ptahcms.manage:templates/apps-contentview.pt"))
 
-class ViewForm(form.DisplayForm):
+class ViewForm(form.Form):
+
+    readonly = True
 
     @property
     def fields(self):
@@ -94,8 +73,8 @@ class ViewForm(form.DisplayForm):
 @view_config(
     name='sharing.html',
     context=ptahcms.IContent,
-    route_name=MANAGE_APP_ROUTE, wrapper=ptah.wrap_layout(),
-    renderer='ptahcms.manage:templates/apps-sharing.pt')
+    route_name=MANAGE_APP_ROUTE,
+    renderer=ptah.layout('ptahcms.manage:templates/apps-sharing.pt'))
 
 class SharingForm(form.Form):
     """ Sharing form """

@@ -13,7 +13,7 @@
         <thead>
           <tr>
             <th>&nbsp;</th>
-            <th tal:repeat="f view.widgets.fields()">
+            <th tal:repeat="f view.fields.values()">
               ${f.title}
             </th>
             <th>&nbsp;</th>
@@ -26,12 +26,12 @@
                 <input type="checkbox" name="rowid"
                        value="${item.__id__}" />
               </td>
-              <td tal:repeat="f view.widgets.fields()">
+              <td tal:repeat="f view.fields.values()">
                 ${info.get(f.name, '')}
               </td>
               <td>
                 <a class="btn btn-info"
-                   href="${url}/${item.__id__}/">Edit</a>
+                   href="${request.url}${item.__id__}/">Edit</a>
               </td>
             </tr>
           </tal:block>
@@ -60,9 +60,9 @@
       </div>
 
       <input type="hidden" tal:condition="view.csrf"
-             name="${view.csrfname}" value="${view.token}" />
+             name="${view.csrf_name}" value="${view.csrf_token}" />
 
-      <tal:block content="structure view.snippet('form-actions', view)" />
+      <tal:block content="structure request.render_tmpl(view.tmpl_actions, view)" />
     </form>
   </div>
 </div>
