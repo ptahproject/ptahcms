@@ -1,20 +1,8 @@
-<div class="span2">
-  <div class="well">
-    <h5>Links</h5>
-    <ul>
-      <li><a href="http://www.pylonsproject.org/">Pyramid</a></li>
-      <li><a href="http://www.sqlalchemy.org/">SQLAlchemy</a></li>
-      <li><a href="http://pagetemplates.org/">Chameleon</a></li>
-    </ul>
-  </div>
-</div>
-<div class="span9">
+  <!-- Main hero unit for a primary marketing message or call to action -->
   <div class="hero-unit">
-    <h1>Welcome to starter!</h1>
-    <p>The starter application uses Ptah, a modern web publishing framework.
-    </p>
-    <p>
-      <a class="btn btn-primary btn-large" href="/ptah-manage/">Goto Ptah Manage UI &raquo;</a>
+    <h1>Welcome to ${context.title}!</h1>
+    <p>The default login is <strong>admin</strong> and the
+      password is <strong>12345</strong>
     </p>
   </div>
-</div>
+

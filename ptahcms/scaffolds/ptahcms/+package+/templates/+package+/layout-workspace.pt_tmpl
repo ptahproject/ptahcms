@@ -23,7 +23,7 @@
 
       <ul class="nav pull-right" tal:condition="view.isAnon">
         <li class="${'active' if request.path.startswith('/login.html') else ''}">
-          <a href="${app_url}/login.html">Sign in</a>
+          <a href="${app_url}/login.html">Login</a>
         </li>
       </ul>
     </div>

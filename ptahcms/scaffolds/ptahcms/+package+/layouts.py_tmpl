@@ -2,7 +2,6 @@ import ptah
 import ptahcms
 from ptah import view, manage, auth_service
 
-from {{package}}.root import SiteRoot
 from {{package}}.actions import CATEGORY
 
 class PageLayout(ptah.View):
