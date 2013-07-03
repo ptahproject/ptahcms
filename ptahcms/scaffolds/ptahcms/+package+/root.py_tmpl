@@ -1,0 +1,30 @@
+import ptah
+import ptahcms
+from pyramid.view import view_config
+
+
+class SiteRoot(ptahcms.ApplicationRoot):
+    """
+    Application model which subclasses ptahcms.ApplicationRoot
+    """
+
+    __type__ = ptahcms.Type(
+        '{{package}}-app',
+        title='CMS Site Root',
+        description='A root for the {{package}} Application',
+        #filter_content_types=True,
+        #allowed_content_types=['folder',]
+    )
+
+
+APP_FACTORY = ptahcms.ApplicationFactory(
+    SiteRoot, '/',
+    name='root', title='Ptah CMS')
+
+
+@view_config(context=SiteRoot,
+             renderer=ptah.layout('{{package}}:homepage.lt'))
+class RootView(ptah.View):
+
+    def __call__(self):
+        return {'user': ptah.auth_service.get_current_principal()}

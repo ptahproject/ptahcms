@@ -1,0 +1,97 @@
+###
+# app configuration
+# http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/environment.html
+###
+
+[app:main]
+use = egg:{{project}}
+
+pyramid.reload_templates = true
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.debug_templates = true
+pyramid.default_locale_name = en
+pyramid.includes =
+    pyramid_debugtoolbar
+    pyramid_beaker
+    pyramid_exclog
+    ptah
+    ptahcms
+    ptahcrowd
+
+# By default, the toolbar only appears for clients from IP addresses
+# '127.0.0.1' and '::1'.
+# debugtoolbar.hosts = 127.0.0.1 ::1
+
+
+# ptah
+ptah.auth = true
+ptah.manager_role = role:manager
+
+# ptahcrowd
+ptahcrowd.admin-login = admin
+ptahcrowd.admin-role = role:manager
+
+# oauth
+auth.providers = ["github", "facebook", "google"]
+
+auth.github_id = be291e643c30453ba002
+auth.github_secret = 3db12b34e7aefcade4e1ddffe27532072a93cb2b
+
+auth.facebook_id = 302489496454438
+auth.facebook_secret = 0f4e0dd9ae85534f8ed6a0d68ea72b33
+
+auth.google_id = 1034131369040.apps.googleusercontent.com
+auth.google_secret = D7eWlXm8hUrFAsGblRaD-zAl
+
+# sqlalchemy
+sqlalchemy.url = sqlite:///%(here)s/var/db.sqlite
+
+# beaker session
+session.type = file
+session.data_dir = %(here)s/var/sessions/data
+session.lock_dir = %(here)s/var/sessions/lock
+session.key = ptahcmssession
+session.secret = ptahcmssecret
+
+###
+# wsgi server configuration
+###
+
+[server:main]
+use = egg:pyramid#wsgiref
+host = 0.0.0.0
+port = 6543
+
+###
+# logging configuration
+# http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html
+###
+
+[loggers]
+keys = root, {{package}}
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_{{package}}]
+level = DEBUG
+handlers =
+qualname = {{package}}
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s

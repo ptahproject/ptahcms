@@ -1,0 +1,36 @@
+import ptah
+import ptahcms
+from ptah import view, manage, auth_service
+
+from {{package}}.root import SiteRoot
+from {{package}}.actions import CATEGORY
+
+class PageLayout(ptah.View):
+    """ override 'page' layout
+
+    layer - identifier, import order does matter, last imported wins
+    """
+
+
+class WorkspaceLayout(ptah.View):
+    """ same as PageLayout, it uses 'page' as parent layout """
+
+    def update(self):
+        self.user = ptah.auth_service.get_current_principal()
+        self.ptahManager = manage.check_access(
+            ptah.auth_service.get_userid(), self.request)
+        self.isAnon = self.user is None
+
+
+class ContentLayout(ptah.View):
+    """ Content layout """
+
+    def update(self):
+        self.actions = ptah.list_uiactions(
+            self.context, self.request, CATEGORY)
+
+        types = [(t.title, t) for t in
+                 self.context.__type__.list_types(self.context)]
+        types.sort()
+
+        self.allowed_content_types = [t for _t, t in types]

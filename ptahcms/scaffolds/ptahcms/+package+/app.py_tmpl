@@ -1,0 +1,84 @@
+import transaction
+from pyramid.config import Configurator
+
+import ptah
+import ptahcrowd
+import ptahcms
+
+# Your custom application permissions
+from {{package}}.permissions import Manager
+
+# application root
+from {{package}}.root import APP_FACTORY
+from {{package}}.root import SiteRoot
+
+POPULATE_CMS_CONTENT = '{{package}}-content'
+
+@ptah.populate(POPULATE_CMS_CONTENT,
+               title='Create cms content',
+               requires=(ptahcrowd.POPULATE_CREATE_ADMIN,))
+def bootstrap_data(registry):
+    """ create sample content """
+
+    crowd_cfg = ptah.get_settings(ptahcrowd.CFG_ID_CROWD, registry)
+    admin_id = crowd_cfg['admin-login']
+    admin = ptahcrowd.provider.CrowdAuthProvider().get_user_bylogin(admin_id)
+
+    # set authcontext so content shows created by admin
+    #ptah.auth_service.set_userid(admin.__uri__)
+
+    root = APP_FACTORY()
+
+    # give manager role to admin
+    #if admin.__uri__ not in root.__local_roles__:
+    #    root.__local_roles__[admin.__uri__] = [Manager.id]
+
+
+def main(global_config, **settings):
+    """ This is your application startup.
+    """
+    config = Configurator(root_factory=APP_FACTORY, settings=settings)
+
+    # static assets
+    config.add_static_view('_{{package}}', '{{package}}:static', cache_max_age=3600)
+
+    # template layers
+    config.add_layers('{{package}}', path='{{package}}:templates/')
+
+    # app layouts
+    from {{package}}.layouts import PageLayout, WorkspaceLayout, ContentLayout
+    config.add_layout(
+        'ptah-page', SiteRoot, parent='workspace',
+        renderer='{{package}}:layout-ptahpage.lt'
+    )
+    config.add_layout(
+        'page', SiteRoot, view=PageLayout,
+        renderer='{{package}}:layout-page.lt'
+    )
+    config.add_layout(
+        'workspace', context=SiteRoot, parent='page', view=WorkspaceLayout,
+        renderer='{{package}}:layout-workspace.lt'
+    )
+    config.add_layout(
+        '', ptahcms.Content, parent='workspace', view=ContentLayout,
+        renderer='{{package}}:layout-content.lt',
+    )
+
+    config.scan()
+
+    # init sqlalchemy engine
+    config.ptah_init_sql()
+
+    # init ptah settings
+    config.ptah_init_settings()
+
+    # enable rest api
+    config.ptah_init_rest()
+
+    # enable ptah manage
+    config.ptah_init_manage()
+
+    # populate database
+    config.ptah_populate()
+
+    return config.make_wsgi_app()

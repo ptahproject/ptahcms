@@ -1,0 +1,129 @@
+from datetime import datetime
+from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
+
+import ptah
+import ptahcms
+
+from {{package}}.root import SiteRoot
+
+
+
+@view_config(
+    context=ptahcms.Content,
+    permission=ptahcms.View,
+    renderer=ptah.layout('{{package}}:contentview.lt'))
+
+class DefaultContentView(ptah.form.Form):
+
+    readonly = True
+
+    @property
+    def fields(self):
+        return self.context.__type__.fieldset
+
+    def form_content(self):
+        data = {}
+        for name, field in self.context.__type__.fieldset.items():
+            data[name] = getattr(self.context, name, field.default)
+
+        return data
+
+
+@view_config(
+    name='edit.html',
+    context=ptahcms.Content,
+    permission=ptahcms.ModifyContent,
+    renderer=ptah.layout())
+class EditForm(ptahcms.EditForm):
+    """ Content edit form """
+    def __init__(self, context, request):
+        self.tinfo = context.__type__
+        super(EditForm, self).__init__(context, request)
+
+
+@view_config(
+    context=ptahcms.Container,
+    permission=ptahcms.View,
+    renderer=ptah.layout('{{package}}:listing.lt'))
+
+@view_config(
+    name='contents.html',
+    context=ptahcms.Container,
+    permission=ptahcms.View,
+    renderer=ptah.layout('{{package}}:listing.lt'))
+
+class ContainerListing(ptah.View):
+
+    def update(self):
+        context = self.context
+        request = self.request
+        registry = request.registry
+
+        self.deleteContent = ptah.check_permission(
+            ptahcms.DeleteContent, context)
+
+        # cms(uri).read()
+        # cms(uri).create(type)
+        # cms(uri).delete()
+        # cms(uri).update(**kwargs)
+        # cms(uri).items(offset, limit)
+
+        if self.deleteContent and 'form.buttons.remove' in request.POST:
+            uris = self.request.POST.getall('item')
+            for uri in uris:
+                ptahcms.wrap(uri).delete()
+
+                self.request.add_message("Selected content items have been removed.")
+
+
+@view_config(
+    name='rename.html', context=ptahcms.Container,
+    renderer=ptah.layout('{{package}}:folder_rename.lt'))
+
+class RenameForm(ptah.View):
+    """ """
+
+
+class Adding(ptah.View):
+
+    def update(self):
+        self.url = self.request.resource_url(self.context)
+
+        types = [(t.title, t) for t in
+                 self.context.__type__.list_types(self.context)]
+        types.sort()
+
+        self.types = [t for _t, t in types]
+
+        tname = self.request.params.get('tname', None)
+        if tname:
+            tinfo = ptah.get_type('type:%s'%tname)
+            if tinfo is None:
+                return HTTPNotFound()
+            add_content_url = '%saddcontent.html?tname=%s' % (self.request.resource_url(self.context), tinfo.name)
+            return HTTPFound(location=add_content_url)
+
+
+
+@view_config(
+    name='add.html', context=ptahcms.Container,
+    permission=ptahcms.AddContent,
+    renderer=ptah.layout())
+
+class AddContentForm(ptahcms.AddForm):
+
+    def __init__(self, context, request):
+        tname = request.params.get('tname', None)
+        tinfo = ptah.resolve('type:%s' % tname)
+
+        if not tinfo:
+            raise HTTPNotFound()
+        if tinfo.addview:
+            raise HTTPNotFound()
+        if not tinfo in context.__type__.list_types(context):
+            raise HTTPForbidden()
+
+        self.tinfo = tinfo
+
+        super(AddContentForm, self).__init__(context, request)

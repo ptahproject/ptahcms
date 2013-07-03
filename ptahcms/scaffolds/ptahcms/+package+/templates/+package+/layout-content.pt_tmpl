@@ -1,0 +1,25 @@
+<div class="row" tal:condition="view.actions">
+  <div class="span12">
+    <ul class="nav nav-pills pull-right">
+    <tal:block tal:repeat="action view.actions">
+      <li tal:condition="not action.id is 'add'" class="${'active' if request.path == action.url else ''}">
+        <a href="${action.url}">${action.title}</a>
+      </li>
+      <li tal:condition="action.id is 'add'" class="${'active' if request.path.split('/')[-1].startswith(action.id) else ''} dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">${action.title}<b class="caret"></b></a>
+
+        <ul class="dropdown-menu pull-right">
+            <li tal:repeat="tinfo view.allowed_content_types"><a href="${tinfo.addview if tinfo.addview else '%s?tname=%s' % (action.url, tinfo.name)}">${tinfo.title}</a></li>
+        </ul>
+      </li>
+    </tal:block>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    ${structure: request.render_messages()}
+    ${structure: content}
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head tal:define="root getattr(request, 'root', None)">
+    <title>${getattr(root, 'title', '')}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    ${structure: request.init_amd()}
+    ${request.require('bootstrap')}
+    ${request.require_css('bootstrap-css', 'bootstrap-responsive-css')}
+  </head>
+
+  <body>
+    <!-- Rendered content that is beeing passed to layout.render method -->
+    ${structure: content}
+  </body>
+</html>

@@ -1,0 +1,60 @@
+""" default actions """
+import ptah
+import ptahcms
+
+CATEGORY = ''
+
+ptah.uiaction(
+    ptahcms.Content,
+    **{'id': 'view',
+       'title': 'View',
+       'action': '',
+       'permission': ptahcms.ModifyContent,
+       'sort_weight': 0.5,
+       'category': CATEGORY})
+
+ptah.uiaction(
+    ptahcms.Content,
+    **{'id': 'edit',
+       'title': 'Edit',
+       'action': 'edit.html',
+       'permission': ptahcms.ModifyContent,
+       'sort_weight': 0.7,
+       'category': CATEGORY})
+
+ptah.uiaction(
+    ptahcms.Container,
+    **{'id': 'add',
+       'title': 'Add',
+       'action': 'add.html',
+       'permission': ptahcms.AddContent,
+       'sort_weight': 100.0,
+       'category': CATEGORY})
+
+ptah.uiaction(
+    ptahcms.Container,
+    **{'id': 'contents',
+       'title': 'Contents',
+       'action': 'contents.html',
+       'permission': ptahcms.ModifyContent,
+       'sort_weight': 0.6,
+       'category': CATEGORY})
+
+ptah.uiaction(
+    ptah.ILocalRolesAware,
+    **{'id': 'share',
+       'title': 'Share',
+       'action': 'share.html',
+       'permission': ptahcms.ShareContent,
+       'sort_weight': 10.0,
+       'category': CATEGORY})
+
+ptah.uiaction(
+    ptahcms.Content,
+    **{'id': 'layout-preview',
+       'title': 'Layout preview',
+       'description': 'view parameter is any registered view name for object',
+       'action': 'layout-preview.html?view=',
+       'permission': ptahcms.NOT_ALLOWED,
+       'sort_weight': 20.0,
+       'category': CATEGORY})
