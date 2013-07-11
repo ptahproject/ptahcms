@@ -142,14 +142,19 @@ class BaseContent(Node):
 
     @action(permission=RenameContent)
     def rename(self, name, **params):
-        if self.__parent_ref__:
+        parent = self.__parent__
+        if parent is None:
             parent = self.__parent_ref__
-            if name != self.__name__:
-                parent[name] = self
-            content = parent[name]
-            content.update(**params)
 
-            return content
+        if parent is None:
+            raise Error("Can't find parent")
+
+        if name != self.__name__:
+            parent[name] = self
+        content = parent[name]
+        content.update(**params)
+
+        return content
 
     def _extra_info(self, info):
         if self.__type__:
