@@ -74,14 +74,12 @@ class IBlobStorage(interface.Interface):
 
 ContentSchema = form.Fieldset(
 
-    form.FieldFactory(
-        'text',
-        'title',
+    form.TextField(
+        name = 'title',
         title = 'Title'),
 
-    form.FieldFactory(
-        'textarea',
-        'description',
+    form.TextAreaField(
+        name = 'description',
         title = 'Description',
         missing = ''),
     )
@@ -96,12 +94,10 @@ def specialSymbols(field, appstruct):
 
 ContentNameSchema = form.Fieldset(
 
-    form.FieldFactory(
-        'text',
-        '__name__',
-        title = 'Short Name',
-        description = 'Short name is the part that shows up in '\
-                            'the URL of the item.',
-        missing = '',
+    form.TextField(
+        name = '__name__',
+        title = 'Name',
+        description = 'Name is the part that shows up in '\
+                      'the URL. Allowed character are "a-z", "0-9" and "-".',
         validator = specialSymbols)
     )
