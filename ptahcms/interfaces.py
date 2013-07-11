@@ -85,11 +85,13 @@ ContentSchema = form.Fieldset(
     )
 
 
-def specialSymbols(field, appstruct):
-    if '/' in appstruct:
-        raise form.Invalid(field, "Names cannot contain '/'")
-    if appstruct.startswith(' '):
-        raise form.Invalid(field, "Names cannot starts with ' '")
+class SpecialSymbolsValidator(form.Regex):
+    def __init__(self, msg=None):
+        if msg is None:
+            msg = "Forbidden characters"
+
+        super(SpecialSymbolsValidator, self).__init__(
+            '^[a-z0-9-]+$', msg=msg)
 
 
 ContentNameSchema = form.Fieldset(
@@ -99,5 +101,5 @@ ContentNameSchema = form.Fieldset(
         title = 'Name',
         description = 'Name is the part that shows up in '\
                       'the URL. Allowed character are "a-z", "0-9" and "-".',
-        validator = specialSymbols)
+        validator = SpecialSymbolsValidator())
     )
