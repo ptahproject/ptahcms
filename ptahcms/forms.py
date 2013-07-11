@@ -2,12 +2,12 @@
 import re
 import unicodedata
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 
 import ptah
 from ptah import form
 from ptahcms.security import wrap
-from ptahcms.interfaces import ContentNameSchema
+from ptahcms.interfaces import ContentNameSchema, IApplicationRoot
 
 
 class AddForm(form.Form):
@@ -175,6 +175,12 @@ class RenameForm(ptah.form.Form):
             data[name] = getattr(self.context, name, field.default)
 
         return data
+
+    def update(self):
+        if IApplicationRoot.implementedBy(self.tinfo.cls):
+            return HTTPForbidden()
+
+        return super(RenameForm, self).update()
 
     def validate(self, data, errors):
         super(RenameForm, self).validate(data, errors)
