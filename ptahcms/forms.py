@@ -193,7 +193,7 @@ class RenameForm(ptah.form.Form):
 
     def apply_changes(self, **data):
         name = data.get('__name__')
-        return wrap(self.container).rename(self.context, name, **data)
+        return wrap(self.context).rename(name, **data)
 
     @form.button('Rename', actype=form.AC_PRIMARY)
     def add_handler(self):

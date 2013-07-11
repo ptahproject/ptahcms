@@ -222,15 +222,6 @@ class BaseContainer(BaseContent):
 
         return content
 
-    @action(permission=RenameContent)
-    def rename(self, item, name, **params):
-        if name != item.__name__:
-            self[name] = item
-        content = self[name]
-        content.update(**params)
-
-        return content
-
     @action(permission=DeleteContent)
     def batchdelete(self, uris):
         """Batch delete"""

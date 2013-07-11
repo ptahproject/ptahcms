@@ -10,7 +10,7 @@ import ptah
 from ptahcms.node import Node
 from ptahcms.interfaces import Error, IContent
 from ptahcms.security import action
-from ptahcms.permissions import DeleteContent, ModifyContent
+from ptahcms.permissions import DeleteContent, ModifyContent, RenameContent
 
 
 class BaseContent(Node):
@@ -139,6 +139,17 @@ class BaseContent(Node):
 
             get_current_registry().notify(
                 ptah.events.ContentModifiedEvent(self))
+
+    @action(permission=RenameContent)
+    def rename(self, name, **params):
+        if self.__parent__:
+            parent = self.__parent__
+            if name != self.__name__:
+                parent[name] = self
+            content = parent[name]
+            content.update(**params)
+
+            return content
 
     def _extra_info(self, info):
         if self.__type__:
