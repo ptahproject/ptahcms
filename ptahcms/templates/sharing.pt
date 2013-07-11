@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h1>Local roles</h1>
+</div>
+
+<form class="form-search" method="post" action="${request.url}">
+  <div class="input-append">
+    <input class="search-query" name="term" type="text" value="${view.term}" placeholder="Search users and groups" />
+    <button class="btn" type="submit" name="form.buttons.search">Search</button>
+  </div>
+  <span class="help-block" style="margin: 8px 0 0 16px"><a href="${request.url}">Show all local assigned roles</a></span>
+</form>
+
+<p tal:condition="not view.term and not view.principals">
+  There are no local roles defined.
+</p>
+
+<p tal:condition="view.term and not view.principals">
+  There are no users and groups found.
+</p>
+
+<div tal:condition="view.principals">
+  <form method="post" action="${request.url}">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th tal:repeat="role view.roles">
+            ${role.title}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:repeat="principal view.principals">
+          <td tal:condition="getattr(principal, 'name', None)">${principal.name}
+            <input type="hidden" name="userid-${principal.__uri__}" value="on" />
+          </td>
+          <td tal:condition="not getattr(principal, 'name', None) and getattr(principal, 'title', None)">${principal.title}
+            <input type="hidden" name="userid-${principal.__uri__}" value="on" />
+          </td>
+          <td>${principal.__type__.title}
+          </td>
+          <td tal:repeat="role view.roles" tal:define="local_roles view.local_roles.get(principal.__uri__, [])">
+            <input type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+                   checked="${role.id in local_roles}" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <tal:block content="structure request.render_tmpl(view.tmpl_actions, view)" />
+  </form>
+</div>
