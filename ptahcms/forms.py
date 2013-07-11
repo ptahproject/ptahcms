@@ -1,5 +1,6 @@
 """ content helper forms """
 import re
+import unicodedata
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPFound
 
@@ -37,6 +38,7 @@ class AddForm(form.Form):
     def chooseName(self, **kw):
         name = kw.get('title', '')
 
+        name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
         name = re.sub(
             '-{2,}', '-',
             re.sub('^\w-|-\w-|-\w$', '-',
