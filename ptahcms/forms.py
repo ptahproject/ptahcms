@@ -16,7 +16,6 @@ class AddForm(form.Form):
 
     name_show = True
     name_suffix = ''
-    name_widgets = None
     name_fields = ContentNameSchema
 
     def __init__(self, context, request):
@@ -59,36 +58,19 @@ class AddForm(form.Form):
         return super(AddForm, self).update()
 
     def update_widgets(self):
+        if self.name_show and not self.fields.get('__name__'):
+            self.fields.append(self.name_fields)
         super(AddForm, self).update_widgets()
-
-        if self.name_show:
-            self.name_widgets = \
-                   form.FormWidgets(self.name_fields, self, self.request)
-            self.name_widgets.mode = self.mode
-            self.name_widgets.update()
 
     def validate(self, data, errors):
         super(AddForm, self).validate(data, errors)
 
-        if self.name_widgets and '__name__' in data and data['__name__']:
+        if self.name_show and '__name__' in data and data['__name__']:
             name = data['__name__']
             if name in self.container.keys():
-                error = form.Invalid(
-                    self.name_widgets['__name__'], 'Name already in use')
-                error.field = self.name_widgets['__name__']
+                error = form.Invalid('Name already in use')
+                error.field = self.widgets['__name__']
                 errors.append(error)
-
-    def extract(self):
-        data, errors = self.widgets.extract()
-
-        if self.name_show:
-            name_data, name_errors = self.name_widgets.extract()
-            if name_errors:
-                errors.extend(name_errors)
-
-            data.update(name_data)
-
-        return data, errors
 
     def create(self, **data):
         name = data.get('__name__')
@@ -103,12 +85,12 @@ class AddForm(form.Form):
         data, errors = self.extract()
 
         if errors:
-            self.message(errors, 'form-error')
+            self.add_error_message(errors)
             return
 
         content = self.create(**data)
 
-        self.message('New content has been created.')
+        self.request.add_message('New content has been created.', 'success')
         return HTTPFound(location=self.get_next_url(content))
 
     @form.button('Cancel')
@@ -120,6 +102,11 @@ class AddForm(form.Form):
 
 
 class EditForm(form.Form):
+
+    def __init__(self, context, request):
+        self.tinfo = context.__type__
+
+        super(EditForm, self).__init__(context, request)
 
     @reify
     def label(self):
@@ -136,11 +123,6 @@ class EditForm(form.Form):
 
         return data
 
-    def update(self):
-        self.tinfo = self.context.__type__
-
-        return super(EditForm, self).update()
-
     def apply_changes(self, **data):
         wrap(self.context).update(**data)
 
@@ -149,12 +131,12 @@ class EditForm(form.Form):
         data, errors = self.extract()
 
         if errors:
-            self.message(errors, 'form-error')
+            self.add_error_message(errors)
             return
 
         self.apply_changes(**data)
 
-        self.message("Changes have been saved.")
+        self.request.add_message('Changes have been saved.', 'success')
         return HTTPFound(location=self.get_next_url())
 
     @form.button('Cancel')
