@@ -142,8 +142,8 @@ class BaseContent(Node):
 
     @action(permission=RenameContent)
     def rename(self, name, **params):
-        if self.__parent__:
-            parent = self.__parent__
+        if self.__parent_ref__:
+            parent = self.__parent_ref__
             if name != self.__name__:
                 parent[name] = self
             content = parent[name]

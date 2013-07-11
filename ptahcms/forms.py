@@ -157,7 +157,7 @@ class RenameForm(ptah.form.Form):
     fields = ContentNameSchema
 
     def __init__(self, context, request):
-        self.container = context.__parent__
+        self.container = context.__parent_ref__
         self.tinfo = context.__type__
         super(RenameForm, self).__init__(context, request)
 
@@ -176,20 +176,19 @@ class RenameForm(ptah.form.Form):
 
         return data
 
-    def update(self):
-        if IApplicationRoot.implementedBy(self.tinfo.cls):
-            return HTTPForbidden()
-
-        return super(RenameForm, self).update()
-
     def validate(self, data, errors):
         super(RenameForm, self).validate(data, errors)
 
+        if not self.container:
+                error = form.Invalid(msg='You can not rename root objects.')
+                errors.append(error)
+
         name = data['__name__']
-        if name != self.context.__name__ and name in self.container.keys():
-            error = form.Invalid('Name already in use')
-            error.field = self.widgets['__name__']
-            errors.append(error)
+        if name != self.context.__name__:
+            if self.container and name in self.container.keys():
+                error = form.Invalid('Name already in use')
+                error.field = self.widgets['__name__']
+                errors.append(error)
 
     def apply_changes(self, **data):
         name = data.get('__name__')
