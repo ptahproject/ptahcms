@@ -1,5 +1,7 @@
 # ptahcms api
 
+import pform as form
+
 #
 from ptahcms.security import wrap, action
 from ptahcms.interfaces import Error, NotFound, Forbidden

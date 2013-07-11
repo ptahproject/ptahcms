@@ -1,11 +1,11 @@
 """ app management module """
 import ptah, ptahcms
-from ptah import view, form
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from pyramid.interfaces import IRequest, IRouteRequest
 
 from ptah.manage import manage
+from ptahcms import form
 
 MANAGE_APP_ROUTE = MANAGE_APP_CATEGORY = 'ptah-manage-app'
 

@@ -2,8 +2,8 @@
 from zope import interface
 from pyramid.httpexceptions import HTTPServerError
 
-from ptah import form
 from ptah.interfaces import TypeException, Forbidden, NotFound
+from ptahcms import form
 
 
 class Error(HTTPServerError, TypeException):

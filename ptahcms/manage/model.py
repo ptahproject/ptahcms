@@ -4,9 +4,9 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPFound
 
 import ptah
-from ptah import form
 from ptah.manage import get_manage_url
 from ptahcms.tinfo import TypeInformation
+from ptahcms import form
 
 
 @ptah.manage.module('models')

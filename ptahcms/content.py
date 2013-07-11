@@ -11,6 +11,7 @@ from ptahcms.node import Node
 from ptahcms.interfaces import Error, IContent
 from ptahcms.security import action
 from ptahcms.permissions import DeleteContent, ModifyContent, RenameContent
+from ptahcms import form
 
 
 class BaseContent(Node):
@@ -134,7 +135,7 @@ class BaseContent(Node):
 
             for field in tinfo.fieldset.fields():
                 val = data.get(field.name, field.default)
-                if val is not ptah.form.null:
+                if val is not form.null:
                     setattr(self, field.name, val)
 
             get_current_registry().notify(

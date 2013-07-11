@@ -5,7 +5,7 @@ from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 
 import ptah
-from ptah import form
+from ptahcms import form
 from ptahcms.security import wrap
 from ptahcms.interfaces import ContentNameSchema, IApplicationRoot
 
@@ -149,7 +149,7 @@ class EditForm(form.Form):
         return '.'
 
 
-class RenameForm(ptah.form.Form):
+class RenameForm(form.Form):
 
     tinfo = None
     container = None
