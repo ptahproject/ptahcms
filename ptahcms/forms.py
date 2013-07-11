@@ -15,7 +15,7 @@ class AddForm(form.Form):
     tinfo = None
     container = None
 
-    name_show = True
+    name_show = False
     name_suffix = ''
     name_fields = ContentNameSchema
 
@@ -147,3 +147,64 @@ class EditForm(form.Form):
 
     def get_next_url(self):
         return '.'
+
+
+class RenameForm(ptah.form.Form):
+
+    tinfo = None
+    container = None
+
+    fields = ContentNameSchema
+
+    def __init__(self, context, request):
+        self.container = context.__parent__
+        self.tinfo = context.__type__
+        super(RenameForm, self).__init__(context, request)
+
+    @reify
+    def label(self):
+        return 'Rename %s'%self.tinfo.title
+
+    @reify
+    def description(self):
+        return self.tinfo.description
+
+    def form_content(self):
+        data = {}
+        for name, field in self.fields.items():
+            data[name] = getattr(self.context, name, field.default)
+
+        return data
+
+    def validate(self, data, errors):
+        super(RenameForm, self).validate(data, errors)
+
+        name = data['__name__']
+        if name != self.context.__name__ and name in self.container.keys():
+            error = form.Invalid('Name already in use')
+            error.field = self.widgets['__name__']
+            errors.append(error)
+
+    def apply_changes(self, **data):
+        name = data.get('__name__')
+        return wrap(self.container).rename(self.context, name, **data)
+
+    @form.button('Rename', actype=form.AC_PRIMARY)
+    def add_handler(self):
+        data, errors = self.extract()
+
+        if errors:
+            self.add_error_message(errors)
+            return
+
+        content = self.apply_changes(**data)
+
+        self.request.add_message('Content has been renamed.', 'success')
+        return HTTPFound(location=self.get_next_url(content))
+
+    @form.button('Cancel')
+    def cancel_handler(self):
+        return HTTPFound(location='.')
+
+    def get_next_url(self, content):
+        return self.request.resource_url(content)

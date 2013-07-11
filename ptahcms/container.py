@@ -8,7 +8,7 @@ import ptah
 from ptahcms.node import load_parents
 from ptahcms.content import Content, BaseContent
 from ptahcms.security import action
-from ptahcms.permissions import DeleteContent
+from ptahcms.permissions import DeleteContent, RenameContent
 from ptahcms.interfaces import IContent, IContainer, NotFound, Error
 
 
@@ -217,6 +217,15 @@ class BaseContainer(BaseContent):
             raise Error("Name already in use.")
 
         self[name] = tinfo.create()
+        content = self[name]
+        content.update(**params)
+
+        return content
+
+    @action(permission=RenameContent)
+    def rename(self, item, name, **params):
+        if name != item.__name__:
+            self[name] = item
         content = self[name]
         content.update(**params)
 

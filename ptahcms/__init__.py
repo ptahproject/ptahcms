@@ -49,6 +49,7 @@ from ptahcms.permissions import View
 from ptahcms.permissions import AddContent
 from ptahcms.permissions import DeleteContent
 from ptahcms.permissions import ModifyContent
+from ptahcms.permissions import RenameContent
 from ptahcms.permissions import ShareContent
 from ptah import NOT_ALLOWED
 from pyramid.security import ALL_PERMISSIONS
@@ -63,6 +64,7 @@ from ptahcms.rest import restaction
 # content add/edit form helpers
 from ptahcms.forms import AddForm
 from ptahcms.forms import EditForm
+from ptahcms.forms import RenameForm
 
 
 def includeme(cfg):
