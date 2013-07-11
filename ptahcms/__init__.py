@@ -65,6 +65,7 @@ from ptahcms.rest import restaction
 from ptahcms.forms import AddForm
 from ptahcms.forms import EditForm
 from ptahcms.forms import RenameForm
+from ptahcms.forms import DeleteForm
 
 
 def includeme(cfg):

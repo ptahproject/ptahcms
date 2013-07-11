@@ -213,3 +213,52 @@ class RenameForm(ptah.form.Form):
 
     def get_next_url(self, content):
         return self.request.resource_url(content)
+
+
+class DeleteForm(form.Form):
+
+    def __init__(self, context, request):
+        self.tinfo = context.__type__
+        super(DeleteForm, self).__init__(context, request)
+
+    @reify
+    def label(self):
+        return 'Delete %s'%self.tinfo.title
+
+    @reify
+    def description(self):
+        return 'Are you sure you want to delete "%s"?'%self.context.title
+
+    def apply_changes(self):
+        wrap(self.context).delete()
+
+    def validate(self, data, errors):
+        super(DeleteForm, self).validate(data, errors)
+
+        if not self.context.__parent_ref__:
+                error = form.Invalid(msg='You can not delete root objects.')
+                errors.append(error)
+
+        if self.context.__children__:
+                error = form.Invalid(msg='Items found that depends on this content.')
+                errors.append(error)
+
+    @form.button('Delete', actype=form.AC_DANGER)
+    def save_handler(self):
+        data, errors = self.extract()
+
+        if errors:
+            self.add_error_message(errors)
+            return
+
+        self.apply_changes()
+        self.request.add_message("Content has been removed.", 'success')
+        return self.get_next_url()
+
+    @form.button('Cancel')
+    def cancel_handler(self):
+        return HTTPFound(location=self.request.resource_url(self.context))
+
+    def get_next_url(self):
+        return HTTPFound(location='../')
+
