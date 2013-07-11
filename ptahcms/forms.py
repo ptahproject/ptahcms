@@ -176,12 +176,14 @@ class RenameForm(form.Form):
 
         return data
 
+    def update(self):
+        if IApplicationRoot.implementedBy(self.tinfo.cls):
+            self.request.add_message('You can not rename ApplicationRoot.', 'info')
+            return self.cancel_handler()
+        return super(RenameForm, self).update()
+
     def validate(self, data, errors):
         super(RenameForm, self).validate(data, errors)
-
-        if not self.container:
-                error = form.Invalid(msg='You can not rename root objects.')
-                errors.append(error)
 
         name = data['__name__']
         if name != self.context.__name__:
@@ -229,19 +231,21 @@ class DeleteForm(form.Form):
     def description(self):
         return 'Are you sure you want to delete "%s"?'%self.context.title
 
+    def update(self):
+        if IApplicationRoot.implementedBy(self.tinfo.cls):
+            self.request.add_message('You can not delete ApplicationRoot.', 'info')
+            return self.cancel_handler()
+        return super(DeleteForm, self).update()
+
     def apply_changes(self):
         wrap(self.context).delete()
 
     def validate(self, data, errors):
         super(DeleteForm, self).validate(data, errors)
 
-        if not self.context.__parent_ref__:
-                error = form.Invalid(msg='You can not delete root objects.')
-                errors.append(error)
-
         if self.context.__children__:
-                error = form.Invalid(msg='Items found that depends on this content.')
-                errors.append(error)
+            error = form.Invalid(msg='Items found that depends on this content.')
+            errors.append(error)
 
     @form.button('Delete', actype=form.AC_DANGER)
     def save_handler(self):
