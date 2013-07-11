@@ -9,19 +9,22 @@ def includeme(config):
         MANAGE_APP_ROUTE, '# {0}'.format(MANAGE_APP_ROUTE),
         use_global_views=False)
 
+    # manage templates
+    config.add_layer('ptahcms-manage', path='ptahcms:manage/templates')
+
     # manage layouts
     from ptah.manage.manage import PtahManageRoute, LayoutManage
     from ptah.view import MasterLayout
-    from ptahcms.node import Node
+    from ptahcms.interfaces import IApplicationRoot
 
     config.add_layout(
         'ptah-manage', PtahManageRoute, route_name=MANAGE_APP_ROUTE,
-        renderer='ptahcms.manage:templates/apps-layout.lt', view=LayoutManage,
+        renderer='ptah-manage:ptah-manage.lt', view=LayoutManage,
         use_global_views=False, 
     )
 
     config.add_layout(
-        '', Node, parent='ptah-mange', route_name=MANAGE_APP_ROUTE,
-        renderer='ptah-manage:ptah-manage.lt', view=MasterLayout,
+        '', IApplicationRoot, parent='ptah-manage', route_name=MANAGE_APP_ROUTE,
+        renderer='ptahcms-manage:apps-layout.lt', view=MasterLayout,
         use_global_views=False, 
     )
