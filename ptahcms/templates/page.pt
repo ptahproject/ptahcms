@@ -1,0 +1,3 @@
+<p tal:condition="context.body">
+${structure: context.body}
+</p>

@@ -28,7 +28,7 @@ ptah.uiaction(
        'title': 'Add',
        'action': 'add.html',
        'permission': ptahcms.AddContent,
-       'sort_weight': 100.0,
+       'sort_weight': 15.0,
        'category': CATEGORY})
 
 ptah.uiaction(
@@ -46,15 +46,33 @@ ptah.uiaction(
        'title': 'Share',
        'action': 'share.html',
        'permission': ptahcms.ShareContent,
-       'sort_weight': 10.0,
+       'sort_weight': 0.9,
        'category': CATEGORY})
 
 ptah.uiaction(
     ptahcms.Content,
-    **{'id': 'layout-preview',
-       'title': 'Layout preview',
-       'description': 'view parameter is any registered view name for object',
-       'action': 'layout-preview.html?view=',
-       'permission': ptahcms.NOT_ALLOWED,
-       'sort_weight': 20.0,
+    **{'id': 'rename',
+       'title': 'Rename',
+       'action': 'rename.html',
+       'permission': ptahcms.RenameContent,
+       'sort_weight': 0.8,
        'category': CATEGORY})
+
+ptah.uiaction(
+    ptahcms.Content,
+    **{'id': 'delete',
+       'title': 'Delete',
+       'action': 'delete.html',
+       'permission': ptahcms.DeleteContent,
+       'sort_weight': 10.0,
+       'category': CATEGORY})
+
+#ptah.uiaction(
+#    ptahcms.Content,
+#    **{'id': 'layout-preview',
+#       'title': 'Layout preview',
+#       'description': 'view parameter is any registered view name for object',
+#       'action': 'layout-preview.html?view=',
+#       'permission': ptahcms.NOT_ALLOWED,
+#       'sort_weight': 20.0,
+#       'category': CATEGORY})

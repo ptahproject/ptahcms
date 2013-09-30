@@ -1,0 +1,4 @@
+import ptahcms
+
+class CMSApplication(ptahcms.ApplicationRoot):
+    __type__ = ptahcms.Type('cms-app')

@@ -1,35 +1,54 @@
+from pyramid.decorator import reify
 import ptah
 import ptahcms
-from ptah import view, manage, auth_service
 
 from {{package}}.actions import CATEGORY
 
-class PageLayout(ptah.View):
-    """ override 'page' layout
 
-    layer - identifier, import order does matter, last imported wins
-    """
+class MasterLayout(ptah.view.MasterLayout):
+    """ Master layout """
+
+    @reify
+    def brand_name(self):
+        return ptah.get_settings('ptahcms', self.request.registry)['brand-name']
+
+    @reify
+    def user(self):
+        return ptah.auth_service.get_current_principal()
+
+    @reify
+    def manage_url(self):
+        if ptah.manage.check_access(ptah.auth_service.get_userid(), self.request):
+            return ptah.manage.get_manage_url(self.request)
+        else:
+            return None
+
+    @reify
+    def apps(self):
+        return ptahcms.get_app_factories()
 
 
 class WorkspaceLayout(ptah.View):
-    """ same as PageLayout, it uses 'page' as parent layout """
-
-    def update(self):
-        self.user = ptah.auth_service.get_current_principal()
-        self.ptahManager = manage.check_access(
-            ptah.auth_service.get_userid(), self.request)
-        self.isAnon = self.user is None
+    """ Workspace layout """
 
 
 class ContentLayout(ptah.View):
     """ Content layout """
 
-    def update(self):
-        self.actions = ptah.list_uiactions(
-            self.context, self.request, CATEGORY)
+    @reify
+    def parents(self):
+        return reversed(ptahcms.load_parents(self.context))
 
+    @reify
+    def actions(self):
+        return ptah.list_uiactions(
+            self.request.context, self.request, CATEGORY)
+
+    @reify
+    def allowed_content_types(self):
         types = [(t.title, t) for t in
-                 self.context.__type__.list_types(self.context)]
+                 self.request.context.__type__.list_types(self.request.context)]
         types.sort()
 
-        self.allowed_content_types = [t for _t, t in types]
+        allowed_content_types = [t for _t, t in types]
+        return allowed_content_types

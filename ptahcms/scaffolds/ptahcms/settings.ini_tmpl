@@ -24,6 +24,8 @@ pyramid.includes =
 # '127.0.0.1' and '::1'.
 # debugtoolbar.hosts = 127.0.0.1 ::1
 
+# ptahcms
+ptahcms.brand-name = {{project}}
 
 # ptah
 ptah.auth = true

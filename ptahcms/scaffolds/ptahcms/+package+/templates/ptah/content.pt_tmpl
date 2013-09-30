@@ -1,0 +1,29 @@
+<div class="navbar" tal:condition="view.actions">
+  <div class="navbar-inner">
+    <ul class="nav pull-right">
+      <tal:block tal:repeat="action view.actions">
+      <li tal:condition="not action.id is 'add'" class="${'active' if request.path == action.url else ''}">
+        <a href="${action.url}">${action.title}</a>
+      </li>
+      <tal:block tal:condition="action.id is 'add' and view.allowed_content_types">
+      <li tal:repeat="tinfo view.allowed_content_types" class="${'active' if request.path.split('/')[-1].startswith(action.id) and tinfo.name == request.params.get('tname') else ''}">
+        <a href="${tinfo.addview if tinfo.addview else '%s?tname=%s' % (action.url, tinfo.name)}">${action.title} ${tinfo.title}</a>
+      </li>
+      </tal:block>
+      </tal:block>
+    </ul>
+  </div>
+</div>
+<ul class="breadcrumb">
+  <li>
+    <a href="${request.application_url}">Home</a>
+    <span class="divider">/</span>
+  </li>
+  <li tal:repeat="parent view.parents">
+    <a href="${request.resource_url(parent)}">${parent.title}</a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">${context.title}</li>
+</ul>
+${structure: request.render_messages()}
+${structure: content}

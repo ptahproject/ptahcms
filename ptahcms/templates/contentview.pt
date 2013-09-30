@@ -1,21 +1,17 @@
 <h2>${context.title}</h2>
 <p tal:condition="view.description">${context.description}</p>
-
-<form>
-  <fieldset>
-    <div class="clearfix" tal:repeat="widget view.widgets.values()">
-      <label tal:attributes="for widget.id;
-                             title widget.description">
-        ${widget.title}
+<table class="table table-hover">
+  <tbody>
+    <tr tal:repeat="widget view.widgets.values()">
+      <td>${widget.title}
         <tal:block condition="widget.required">*</tal:block>
-      </label>
-
-      <div class="input">
+      </td>
+      <td>
         <span tal:content="structure widget.value" />
         <span class="help-block"
               tal:condition="widget.description"
               tal:content="structure widget.description"></span>
-      </div>
-    </div>
-  </fieldset>
-</form>
+      </td>
+    </tr>
+  </tbody>
+</table>

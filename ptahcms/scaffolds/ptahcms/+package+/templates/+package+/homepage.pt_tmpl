@@ -1,6 +1,6 @@
   <!-- Main hero unit for a primary marketing message or call to action -->
   <div class="hero-unit">
-    <h1>Welcome to ${context.title}!</h1>
+    <h1>Welcome to Ptah CMS!</h1>
     <p>The default login is <strong>admin</strong> and the
       password is <strong>12345</strong>
     </p>

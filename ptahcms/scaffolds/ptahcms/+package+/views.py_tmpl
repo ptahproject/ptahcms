@@ -5,16 +5,20 @@ from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
 import ptah
 import ptahcms
 
-from {{package}}.root import SiteRoot
-
+@view_config(
+    route_name='home',
+    renderer=ptah.layout('{{package}}:homepage.lt', 'master')
+)
+class HomepageView(ptah.View):
+    """ Your homepage welcome site """
 
 
 @view_config(
     context=ptahcms.Content,
     permission=ptahcms.View,
-    renderer=ptah.layout('{{package}}:contentview.lt'))
-
-class DefaultContentView(ptah.form.Form):
+    renderer=ptah.layout('ptahcms:contentview.lt'))
+class DefaultContentView(ptahcms.form.Form):
+    """ Default content view """
 
     readonly = True
 
@@ -36,24 +40,20 @@ class DefaultContentView(ptah.form.Form):
     permission=ptahcms.ModifyContent,
     renderer=ptah.layout())
 class EditForm(ptahcms.EditForm):
-    """ Content edit form """
-    def __init__(self, context, request):
-        self.tinfo = context.__type__
-        super(EditForm, self).__init__(context, request)
+    """ Default content edit form """
 
 
 @view_config(
     context=ptahcms.Container,
     permission=ptahcms.View,
-    renderer=ptah.layout('{{package}}:listing.lt'))
-
+    renderer=ptah.layout('ptahcms:listing.lt'))
 @view_config(
     name='contents.html',
     context=ptahcms.Container,
-    permission=ptahcms.View,
-    renderer=ptah.layout('{{package}}:listing.lt'))
-
+    permission=ptahcms.ModifyContent,
+    renderer=ptah.layout('ptahcms:listing.lt'))
 class ContainerListing(ptah.View):
+    """ Default container listing view """
 
     def update(self):
         context = self.context
@@ -78,32 +78,27 @@ class ContainerListing(ptah.View):
 
 
 @view_config(
-    name='rename.html', context=ptahcms.Container,
-    renderer=ptah.layout('{{package}}:folder_rename.lt'))
+    name='rename.html', context=ptahcms.Content,
+    permission=ptahcms.RenameContent,
+    renderer=ptah.layout())
+class RenameForm(ptahcms.RenameForm):
+    """ Default content rename form """
 
-class RenameForm(ptah.View):
-    """ """
+
+@view_config(
+    name='delete.html', context=ptahcms.Content,
+    permission=ptahcms.DeleteContent,
+    renderer=ptah.layout())
+class DeleteForm(ptahcms.DeleteForm):
+    """ Default content delete form """
 
 
-class Adding(ptah.View):
-
-    def update(self):
-        self.url = self.request.resource_url(self.context)
-
-        types = [(t.title, t) for t in
-                 self.context.__type__.list_types(self.context)]
-        types.sort()
-
-        self.types = [t for _t, t in types]
-
-        tname = self.request.params.get('tname', None)
-        if tname:
-            tinfo = ptah.get_type('type:%s'%tname)
-            if tinfo is None:
-                return HTTPNotFound()
-            add_content_url = '%saddcontent.html?tname=%s' % (self.request.resource_url(self.context), tinfo.name)
-            return HTTPFound(location=add_content_url)
-
+@view_config(
+    name='share.html', context=ptah.ILocalRolesAware,
+    permission=ptahcms.ShareContent,
+    renderer=ptah.layout('ptahcms:sharing.lt'))
+class ShareForm(ptahcms.ShareForm):
+    """ Default share form """
 
 
 @view_config(
@@ -111,7 +106,8 @@ class Adding(ptah.View):
     permission=ptahcms.AddContent,
     renderer=ptah.layout())
 
-class AddContentForm(ptahcms.AddForm):
+class AddForm(ptahcms.AddForm):
+    """ Default content add form """
 
     def __init__(self, context, request):
         tname = request.params.get('tname', None)
@@ -126,4 +122,4 @@ class AddContentForm(ptahcms.AddForm):
 
         self.tinfo = tinfo
 
-        super(AddContentForm, self).__init__(context, request)
+        super(AddForm, self).__init__(context, request)

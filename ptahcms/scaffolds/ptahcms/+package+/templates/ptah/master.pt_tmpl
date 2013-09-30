@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>${view.brand_name}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ${structure: request.init_amd()}
+    ${structure: request.include_js('bootstrap')}
+    ${structure: request.include_css('bootstrap-css')}
+    ${structure: request.include_css('bootstrap-responsive-css')}
+    <link type="text/css" rel="stylesheet"
+          href="${request.static_url('{{package}}:static/app.css')}" />
+    <link rel="shortcut icon"
+          href="${request.static_url('{{package}}:static/ico/favicon.ico')}" />
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" tal:define="app_url view.application_url;">
+      <div class="navbar-inner">
+        <div class="container">
+
+          <a class="brand" href="${app_url}">${view.brand_name}</a>
+
+          <ul class="nav">
+            <li tal:repeat="app view.apps.values()">
+              <a href="${app.path}">${app().title}</a>
+            </li>
+          </ul>
+
+          <tal:block tal:condition="view.user">
+          <ul class="nav pull-right">
+            <li><a><b>${view.user}</b></a></li>
+            <li tal:condition="view.manage_url" class="${'active' if request.url.startswith(view.manage_url) else ''}">
+              <a href="${view.manage_url}/">Manage</a>
+            </li>
+            <li>
+              <a href="${app_url}/logout.html">Logout</a>
+            </li>
+          </ul>
+          </tal:block>
+
+          <ul class="nav pull-right" tal:condition="not view.user">
+            <li class="${'active' if request.path.startswith('/login.html') else ''}">
+              <a href="${app_url}/login.html">Login</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container app-body">
+      <div class="row">
+        <div class="span12">
+          ${structure: request.render_messages()}
+          ${structure: content}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

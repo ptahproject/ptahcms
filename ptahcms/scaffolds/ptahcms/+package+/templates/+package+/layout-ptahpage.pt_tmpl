@@ -1,6 +1,0 @@
-<div class="row">
-  <div class="span10 offset3 columns">
-    ${structure: request.render_messages()}
-    ${structure: content}
-  </div>
-</div>
