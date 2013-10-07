@@ -51,6 +51,11 @@ setup(name='ptahcms',
       include_package_data=True,
       zip_safe=False,
       package_data={'migrations': ['ptahcms/migrations/*.py']},
+      entry_points={
+          'pyramid.scaffold': [
+              'ptahcms = ptahcms.scaffolds:PtahCMSProjectTemplate',
+              ],
+          },
       message_extractors={'ptahcms': [
         ('migrations/**', 'ignore', None),
         ('scaffolds/**', 'ignore', None),
