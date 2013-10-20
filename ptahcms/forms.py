@@ -29,7 +29,7 @@ class AddForm(form.Form):
 
     @reify
     def label(self):
-        return 'Add %s'%self.tinfo.title
+        return 'Add <i>%s</i>' % self.tinfo.title
 
     @reify
     def description(self):
@@ -112,7 +112,7 @@ class EditForm(form.Form):
 
     @reify
     def label(self):
-        return 'Modify content: %s'%self.tinfo.title
+        return 'Modify <i>%s</i>' % self.tinfo.title
 
     @reify
     def fields(self):
@@ -163,7 +163,7 @@ class RenameForm(form.Form):
 
     @reify
     def label(self):
-        return 'Rename %s'%self.tinfo.title
+        return 'Rename <i>%s</i>' % self.tinfo.title
 
     @reify
     def description(self):
@@ -225,15 +225,15 @@ class DeleteForm(form.Form):
 
     @reify
     def label(self):
-        return 'Delete %s'%self.tinfo.title
+        return 'Delete <i>%s</i>' % self.tinfo.title
 
     @reify
     def description(self):
-        return 'Are you sure you want to delete "%s"?'%self.context.title
+        return 'Are you sure you want to delete <i>%s</i>?' % self.context.title
 
     def update(self):
         if IApplicationRoot.implementedBy(self.tinfo.cls):
-            self.request.add_message('You can not delete ApplicationRoot.', 'info')
+            self.request.add_message('You can not delete Application.', 'info')
             return self.cancel_handler()
         return super(DeleteForm, self).update()
 
