@@ -75,7 +75,8 @@ class Node(ptah.get_base()):
     __annotations__ = sa.Column('annotations', ptah.JsonDictType(),default={})
 
     __children__ = sa.orm.relationship(
-        'Node', backref=sa.orm.backref('__parent_ref__', remote_side=[__uri__]))
+        'Node', backref=sa.orm.backref('__parent_ref__', remote_side=[__uri__]),
+        cascade='all')
 
     __mapper_args__ = {'polymorphic_on': __type_id__}
 

@@ -7,7 +7,7 @@ from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 import ptah
 from ptahcms import form
 from ptahcms.security import wrap
-from ptahcms.interfaces import ContentNameSchema, IApplicationRoot
+from ptahcms.interfaces import ContentNameSchema, IApplicationRoot, IContainer
 
 
 class AddForm(form.Form):
@@ -243,7 +243,7 @@ class DeleteForm(form.Form):
     def validate(self, data, errors):
         super(DeleteForm, self).validate(data, errors)
 
-        if self.context.__children__:
+        if IContainer.implementedBy(self.context.__type__.cls) and self.context.values():
             error = form.Invalid(msg='Items found that depends on this content.')
             errors.append(error)
 
