@@ -1,14 +1,22 @@
+<div class="col-xs-12">
 <div class="page-header">
   <h1>Local roles</h1>
-</div>
-
-<form class="form-search" method="post" action="${request.url}">
-  <div class="input-append">
-    <input class="search-query" name="term" type="text" value="${view.term}" placeholder="Search users and groups" />
-    <button class="btn" type="submit" name="form.buttons.search">Search</button>
-  </div>
-  <span class="help-block" style="margin: 8px 0 0 16px"><a href="${request.url}">Show all local assigned roles</a></span>
+<form class="form-inline" method="post" action="${request.url}">
+    <div class="form-group">
+      <label class="sr-only" for="years">Search years</label>
+      <input type="search" class="form-control" style="width:12em;" name="term" list="principals" placeholder="Users and groups..." value="${view.term}" />
+        <datalist id="principals">
+            <tal:block tal:repeat="principal view.principals">
+              <option>${principal}</option>
+            </tal:block>
+        </datalist>
+    </div>
+    <button type="submit" class="btn btn-default" name="form.buttons.search">
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
 </form>
+    <a href="${request.url}">Show all local assigned roles</a>
+</div>
 
 <p tal:condition="not view.term and not view.principals">
   There are no local roles defined.
@@ -19,7 +27,7 @@
 </p>
 
 <div tal:condition="view.principals">
-  <form method="post" action="${request.url}">
+  <form class="form-horizontal" method="post" action="${request.url}">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -41,12 +49,19 @@
           <td>${principal.__type__.title}
           </td>
           <td tal:repeat="role view.roles" tal:define="local_roles view.local_roles.get(principal.__uri__, [])">
-            <input type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
-                   checked="${role.id in local_roles}" />
-          </td>
+            <input tal:condition="role.id in local_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+                    checked />
+            <input tal:condition="not role.id in local_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+                    />
+          </td>${principal.__dict__}
         </tr>
       </tbody>
     </table>
-    <tal:block content="structure request.render_tmpl(view.tmpl_actions, view)" />
+    <div class="form-group">
+      <div class="col-xs-12">
+        <tal:block content="structure request.render_tmpl(view.tmpl_actions, view)" />
+      </div>
+    </div>
   </form>
+</div>
 </div>
