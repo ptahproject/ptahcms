@@ -53,7 +53,7 @@
                     checked />
             <input tal:condition="not role.id in local_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
                     />
-          </td>${principal.__dict__}
+          </td>
         </tr>
       </tbody>
     </table>
