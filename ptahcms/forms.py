@@ -279,7 +279,13 @@ class ShareForm(form.Form):
         self.local_roles = local_roles = context.__local_roles__
         self.local_principals = [ptah.resolve(principalUri)
                                for principalUri in self.local_roles]
-        self.principals = self.local_principals
+
+        for p in list(ptah.search_principals('')):
+            p = ptah.resolve(p.__uri__)
+            if p.properties.get('roles') and p not in self.local_principals:
+                self.local_principals.append(p)
+
+        self.principals = sorted(self.local_principals, key=lambda p: p.name)
 
         super(ShareForm, self).__init__(context, request)
 

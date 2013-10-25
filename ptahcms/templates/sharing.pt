@@ -45,10 +45,13 @@
             </td>
             <td>${principal.__type__.title}
             </td>
-            <td tal:repeat="role view.roles" tal:define="local_roles view.local_roles.get(principal.__uri__, [])">
-              <input tal:condition="role.id in local_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+            <td tal:repeat="role view.roles" tal:define="local_roles view.local_roles.get(principal.__uri__, []);
+                                                         global_roles principal.properties.get('roles', [])">
+              <input tal:condition="role.id in local_roles and not role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
                       checked />
-              <input tal:condition="not role.id in local_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+              <input tal:condition="role.id in global_roles or role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+                      checked disabled/>
+              <input tal:condition="not role.id in local_roles and not role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
                       />
             </td>
           </tr>
