@@ -283,6 +283,14 @@ class ShareForm(form.Form):
 
         super(ShareForm, self).__init__(context, request)
 
+    @reify
+    def label(self):
+        return 'Share <i>%s</i>' % self.context.title
+
+    @reify
+    def description(self):
+        return ''
+
     def update(self):
         if 'form.buttons.search' in self.request.POST:
             self.term = self.request.POST.get('term')
@@ -291,6 +299,12 @@ class ShareForm(form.Form):
         if 'form.buttons.clear' in self.request.POST:
             self.term = ''
             self.principals = self.local_principals
+
+        if not self.principals:
+            if not self.term:
+                self.request.add_message('There are no local roles defined.', 'info')
+            else:
+                self.request.add_message('There are no users or groups found.', 'info')
 
         return super(ShareForm, self).update()
 
@@ -318,3 +332,6 @@ class ShareForm(form.Form):
         return HTTPFound(location=self.request.url)
 
 
+    @form.button('Cancel')
+    def cancel_handler(self):
+        return HTTPFound(location='.')
