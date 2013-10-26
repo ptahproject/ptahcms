@@ -264,7 +264,7 @@ class DeleteForm(form.Form):
         return HTTPFound(location=self.get_cancel_url())
 
     def get_cancel_url(self):
-        return HTTPFound(location=self.request.resource_url(self.context))
+        return self.request.resource_url(self.context)
 
 
 class ShareForm(form.Form):
