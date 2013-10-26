@@ -20,11 +20,11 @@ def includeme(config):
     config.add_layout(
         'ptah-manage', PtahManageRoute, route_name=MANAGE_APP_ROUTE,
         renderer='ptah-manage:ptah-manage.lt', view=LayoutManage,
-        use_global_views=False, 
+        use_global_views=False, parent='workspace'
     )
 
     config.add_layout(
         '', IApplicationRoot, parent='ptah-manage', route_name=MANAGE_APP_ROUTE,
-        renderer='ptahcms-manage:apps-layout.lt', view=MasterLayout,
+        renderer='ptahcms-manage:apps-layout.lt',
         use_global_views=False, 
     )

@@ -5,14 +5,6 @@
 ${structure: request.render_messages()}
 
 <div class="row">
-  <div class="span4">
-    <ul>
-      <li tal:repeat="action view.actions">
-        <a href="${action['url']}">${action['title']}</a>
-      </li>
-    </ul>
-  </div>
-
   <div class="span12">
     ${structure: content}
   </div>
