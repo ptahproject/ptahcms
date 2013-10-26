@@ -257,14 +257,14 @@ class DeleteForm(form.Form):
 
         self.apply_changes()
         self.request.add_message("Content has been removed.", 'success')
-        return self.get_next_url()
+        return HTTPFound(location='..')
 
     @form.button('Cancel')
     def cancel_handler(self):
-        return HTTPFound(location=self.request.resource_url(self.context))
+        return HTTPFound(location=self.get_cancel_url())
 
-    def get_next_url(self):
-        return HTTPFound(location='../')
+    def get_cancel_url(self):
+        return HTTPFound(location=self.request.resource_url(self.context))
 
 
 class ShareForm(form.Form):
@@ -335,9 +335,11 @@ class ShareForm(form.Form):
 
         self.context.__local_roles__ = local_roles
         self.request.add_message('Changes have been saved.', 'success')
-        return HTTPFound(location=self.request.url)
-
+        return HTTPFound(location=self.get_next_url())
 
     @form.button('Cancel')
     def cancel_handler(self):
-        return HTTPFound(location='.')
+        return HTTPFound(location=self.get_next_url())
+
+    def get_next_url(self):
+        return '.'
