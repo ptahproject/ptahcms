@@ -39,16 +39,13 @@
       </thead>
       <tbody>
         <tr tal:repeat="principal view.principals">
-          <td tal:condition="getattr(principal, 'name', None)">${principal.name}
-            <input type="hidden" name="userid-${principal.__uri__}" value="on" />
-          </td>
-          <td tal:condition="not getattr(principal, 'name', None) and getattr(principal, 'title', None)">${principal.title}
+          <td>${principal.name}
             <input type="hidden" name="userid-${principal.__uri__}" value="on" />
           </td>
           <td>${principal.__type__.title}
           </td>
           <td tal:repeat="role view.roles" tal:define="local_roles view.local_roles.get(principal.__uri__, []);
-                                                       global_roles principal.properties.get('roles', [])">
+                                                       global_roles view.get_global_roles(principal)">
             <input tal:condition="role.id in local_roles and not role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
                     checked />
             <input tal:condition="role.id in global_roles or role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"

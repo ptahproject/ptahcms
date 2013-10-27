@@ -282,8 +282,9 @@ class ShareForm(form.Form):
 
         for p in list(ptah.search_principals('')):
             p = ptah.resolve(p.__uri__)
-            if p.properties.get('roles') and p not in self.local_principals:
-                self.local_principals.append(p)
+            if hasattr(p, 'properties'):
+                if p.properties.get('roles') and p not in self.local_principals:
+                    self.local_principals.append(p)
 
         self.principals = sorted(self.local_principals, key=lambda p: p.name)
 
@@ -296,6 +297,9 @@ class ShareForm(form.Form):
     @reify
     def description(self):
         return ''
+
+    def get_global_roles(self, principal):
+        return principal.properties.get('roles', []) if hasattr(principal, 'properties') else []
 
     def update(self):
         if 'form.buttons.search' in self.request.POST:
@@ -335,7 +339,7 @@ class ShareForm(form.Form):
 
         self.context.__local_roles__ = local_roles
         self.request.add_message('Changes have been saved.', 'success')
-        return HTTPFound(location=self.get_next_url())
+        return HTTPFound(location=self.request.resource_url(self.context))
 
     @form.button('Cancel')
     def cancel_handler(self):
