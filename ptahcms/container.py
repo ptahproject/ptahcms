@@ -200,12 +200,17 @@ class BaseContainer(BaseContent):
         raise KeyError(item)
 
     @action
-    def create(self, tname, name, **params):
+    def create(self, tname, name=None, **params):
         tinfo = ptah.resolve(tname)
         if tinfo is None:
             raise NotFound('Type information is not found')
 
         tinfo.check_context(self)
+
+        item = tinfo.create()
+
+        if not name:
+            name = item.__uri__
 
         if '/' in name:
             raise Error("Names cannot contain '/'")
@@ -216,7 +221,7 @@ class BaseContainer(BaseContent):
         if name in self:
             raise Error("Name already in use.")
 
-        self[name] = tinfo.create()
+        self[name] = item
         content = self[name]
         content.update(**params)
 
