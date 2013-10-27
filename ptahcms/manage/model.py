@@ -34,6 +34,7 @@ class Model(object):
         self.__parent__ = context
         self.request = request
         self.tinfo = tinfo
+        self.title = context.title
 
     def __getitem__(self, key):
         if key == 'add.html':
@@ -58,6 +59,7 @@ class Record(object):
 
         self.record = ptah.get_session().query(tinfo.cls)\
             .filter(tinfo.cls.__id__ == pid).one()
+        self.title = self.record.title
 
 
 @view_config(
