@@ -3,11 +3,11 @@
 </div>
 
 <div class="row">
-  <div class="span8">
+  <div class="span8 col-md-8">
     ${structure: request.render_tmpl(view.tmpl_view, view)}
   </div>
 
-<div class="span4" tal:define="url '%s/uri.html'%view.manage">
+<div class="span4 col-md-4" tal:define="url '%s/uri.html'%view.manage">
   <table class="table table-striped">
     <tbody tal:define="r context.record">
       <tr>
