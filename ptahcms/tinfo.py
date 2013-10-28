@@ -69,7 +69,7 @@ def Type(name, title=None, fieldset=None, **kw):
     if '__id__' not in f_locals and '__tablename__' in f_locals:
         f_locals['__id__'] = sqla.Column(
             'id', sqla.Integer,
-            sqla.ForeignKey('ptah_content.id'), primary_key=True)
+            sqla.ForeignKey('ptahcms_contents.id'), primary_key=True)
 
     if '__uri_factory__' not in f_locals:
         schema = 'type-{0}'.format(name)

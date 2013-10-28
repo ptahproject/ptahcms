@@ -13,12 +13,12 @@ from ptahcms.interfaces import IBlob, IBlobStorage
 class Blob(Node):
     """ simple blob implementation """
 
-    __tablename__ = 'ptah_blobs'
+    __tablename__ = 'ptahcms_blobs'
     __mapper_args__ = {'polymorphic_identity': 'blob-sql'}
     __uri_factory__ = ptah.UriFactory('blob-sql')
 
     __id__ = sqla.Column('id', sqla.Integer,
-                         sqla.ForeignKey('ptah_nodes.id'), primary_key=True)
+                         sqla.ForeignKey('ptahcms_nodes.id'), primary_key=True)
 
     mimetype = sqla.Column(sqla.String(128), default=text_type(''))
     filename = sqla.Column(sqla.String(255), default=text_type(''))

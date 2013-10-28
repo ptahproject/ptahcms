@@ -23,7 +23,7 @@ class Base(PtahTestCase):
             __table_args__ = {'extend_existing': True}
             __id__ = sqla.Column(
                 'id', sqla.Integer,
-                sqla.ForeignKey('ptah_nodes.id'), primary_key=True)
+                sqla.ForeignKey('ptahcms_nodes.id'), primary_key=True)
 
             __type__ = cms.Type('content2')
 

@@ -66,10 +66,10 @@ class BaseContent(Node):
 
     """
 
-    __tablename__ = 'ptah_content'
+    __tablename__ = 'ptahcms_contents'
 
     __id__ = sqla.Column('id', sqla.Integer,
-                         sqla.ForeignKey('ptah_nodes.id'), primary_key=True)
+                         sqla.ForeignKey('ptahcms_nodes.id'), primary_key=True)
     __path__ = sqla.Column('path', sqla.Unicode(1024),
                            default=text_type(''), index=True)
     __name_id__ = sqla.Column('name', sqla.Unicode(255), default=text_type(''))

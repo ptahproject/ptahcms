@@ -58,7 +58,7 @@ class Node(ptah.get_base()):
 
     """
 
-    __tablename__ = 'ptah_nodes'
+    __tablename__ = 'ptahcms_nodes'
 
     __id__ = sa.Column('id', sa.Integer, primary_key=True)
     __type_id__ = sa.Column('type', sa.String(128), info={'uri':True})
