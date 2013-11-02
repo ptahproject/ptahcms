@@ -20,7 +20,19 @@ class AddForm(form.Form):
     name_fields = ContentNameSchema
 
     def __init__(self, context, request):
+        tname = request.params.get('tname', None)
+        if not tname:
+            raise HTTPNotFound()
+        tinfo = ptah.resolve('type:%s' % tname)
+
+        if not tinfo:
+            raise HTTPNotFound()
+        if not tinfo in context.__type__.list_types(context):
+            raise HTTPForbidden()
+
+        self.tinfo = tinfo
         self.container = context
+
         super(AddForm, self).__init__(context, request)
 
     @reify
