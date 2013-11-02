@@ -71,6 +71,11 @@ class IBlobStorage(interface.Interface):
     def remove(uri):
         """ remove blob """
 
+class IFile(IContent):
+    """ file """
+
+    bloburi = interface.Attribute('Blob uri')
+
 
 ContentSchema = form.Fieldset(
 
