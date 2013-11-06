@@ -81,7 +81,7 @@ class ModelModuleView(ptah.View):
                 continue
             types.append((ti.title, ti))
 
-        self.types = [f for _t, f in sorted(types)]
+        self.types = [f for _t, f in sorted(types, key=lambda f: f[0])]
 
 
 @view_config(
