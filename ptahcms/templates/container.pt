@@ -1,3 +1,0 @@
-<div tal:condition="context.description" class="page-header">
-  <h1>${context.description}</h1>
-</div>

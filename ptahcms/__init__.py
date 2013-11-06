@@ -77,7 +77,7 @@ def includeme(cfg):
     cfg.add_directive('ptah_init_rest', restsrv.enable_rest_api)
 
     # templates
-    cfg.add_layer('ptahcms', path='ptahcms:templates')
+    cfg.add_layer('ptahcms', path='ptahcms:templates/ptahcms')
 
     cfg.include('ptahcms.manage')
     cfg.scan()

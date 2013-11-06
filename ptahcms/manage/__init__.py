@@ -10,7 +10,7 @@ def includeme(config):
         use_global_views=False)
 
     # manage templates
-    config.add_layer('ptahcms-manage', path='ptahcms:manage/templates')
+    config.add_layer('ptahcms-manage', path='ptahcms:templates/manage')
 
     # manage layouts
     from ptah.manage.manage import PtahManageRoute, LayoutManage
