@@ -8,7 +8,7 @@ import ptah
 from ptahcms.node import load_parents
 from ptahcms.content import Content, BaseContent
 from ptahcms.security import action
-from ptahcms.permissions import DeleteContent, RenameContent
+from ptahcms.permissions import View, DeleteContent, RenameContent
 from ptahcms.interfaces import IContent, IContainer, NotFound, Error
 
 
@@ -231,6 +231,13 @@ class BaseContainer(BaseContent):
     def batchdelete(self, uris):
         """Batch delete"""
         raise NotImplements() # pragma: no cover
+
+    def contents(self):
+        """ Returns public or allowed content of the container """
+        for record in self.values():
+            if IContent.providedBy(record):
+                if record.public or ptah.check_permission(View, record):
+                    yield record
 
     def info(self):
         info = super(BaseContainer, self).info()

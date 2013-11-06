@@ -79,6 +79,7 @@ class BaseContent(Node):
                               info = {'missing': '', 'field_type': 'textarea',
                                       'default': '', 'required': False})
 
+    public = sqla.Column(sqla.Boolean, info={'required': False, 'missing': False, 'default': False})
     created = sqla.Column(sqla.DateTime)
     modified = sqla.Column(sqla.DateTime)
     effective = sqla.Column(sqla.DateTime)

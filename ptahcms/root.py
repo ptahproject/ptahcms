@@ -50,12 +50,13 @@ class ApplicationFactory(object):
 
     def __init__(self, cls, path='', name='', title='', description='',
                  policy = ApplicationPolicy, default_root = None,
-                 parent_factory = None, config=None):
+                 parent_factory = None, config=None, public=False):
         self.id = '-'.join(part for part in path.split('/') if part)
         self.path = path if path.endswith('/') else '%s/'%path
         self.name = name
         self.title = title
         self.description = description
+        self.public = public
 
         self.default_root = default_root
         if (self.path == '/') and default_root is None:
@@ -93,8 +94,9 @@ class ApplicationFactory(object):
     def __call__(self, request=None):
         root = self._sql_get_root.first(name=self.name, type=self.type.__uri__)
         if root is None:
-            root = self.type.create(title=self.title, 
-                                    description=self.description)
+            root = self.type.create(title=self.title,
+                                    description=self.description,
+                                    public=self.public)
             root.__name_id__ = self.name
             root.__path__ = '/%s/'%root.__uri__
             Session = ptah.get_session()

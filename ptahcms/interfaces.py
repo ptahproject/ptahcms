@@ -23,6 +23,7 @@ class IContent(interface.Interface):
     """ base interface """
 
     name = interface.Attribute('Name')
+    public = interface.Attribute('Public')
 
 
 class IContainer(IContent):
