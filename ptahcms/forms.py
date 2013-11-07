@@ -4,6 +4,9 @@ import unicodedata
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 
+from pyramid_mailer import get_mailer
+from pyramid_mailer.message import Message
+
 import ptah
 from ptahcms import form
 from ptahcms.security import wrap
@@ -371,3 +374,55 @@ class ShareForm(form.Form):
 
     def get_next_url(self):
         return '.'
+
+
+class ContactForm(form.Form):
+
+    fields = form.Fieldset(
+        form.TextField(
+            'name', title='Full Name'),
+        form.TextField(
+            'sender', title='E-Mail Address',
+            validator=form.Email()),
+        form.TextField(
+            'subject', title='Sebject'),
+        form.TextAreaField(
+            'body', title='Your message', default='')
+    )
+
+    @reify
+    def label(self):
+        return 'Contact'
+
+    @reify
+    def description(self):
+        return 'Please fill out the form to contact us.'
+
+    def mail_submission(self, data):
+        mailer = get_mailer(self.request)
+        sender = '%s <%s>' % (data['name'], data['sender'])
+        recipients = [mailer.default_sender]
+        subject = data['subject']
+        body = data['body']
+        message = Message(subject, recipients=recipients, body=body,
+            html=None, sender=sender, cc=None, bcc=[data['sender']],
+            extra_headers=None, attachments=None)
+        mailer.send(message)
+
+    @form.button('Send', actype=form.AC_PRIMARY)
+    def send_msg(self):
+        data, errors = self.extract()
+
+        if errors:
+            self.add_error_message(errors)
+            return
+        try:
+            self.mail_submission(data)
+            self.request.add_message(
+                """Your message has been sent.
+                   You can find a copy of it in your mailbox.""", 'success')
+            return HTTPFound(location=self.request.path_url)
+        except:
+            self.request.add_message(
+            """Oops, your message could not be sent.""", 'error')
+            return

@@ -69,6 +69,7 @@ from ptahcms.forms import EditForm
 from ptahcms.forms import RenameForm
 from ptahcms.forms import DeleteForm
 from ptahcms.forms import ShareForm
+from ptahcms.forms import ContactForm
 
 
 def includeme(cfg):
