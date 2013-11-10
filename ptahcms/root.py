@@ -98,7 +98,7 @@ class ApplicationFactory(object):
                                     description=self.description,
                                     public=self.public)
             root.__name_id__ = self.name
-            root.__path__ = '/%s/'%root.__uri__
+            root.__path__ = self.path
             Session = ptah.get_session()
             Session.add(root)
             Session.flush()
