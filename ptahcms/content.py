@@ -115,8 +115,7 @@ class BaseContent(Node):
         self.__name_id__ = value
 
     def __resource_url__(self, request, info):
-        return '%s%s'%(request.root.__root_path__,
-                       self.__path__[len(request.root.__path__):])
+        return self.__path__
 
     @action(permission=DeleteContent)
     def delete(self):
