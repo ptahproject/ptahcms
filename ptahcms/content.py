@@ -153,7 +153,6 @@ class BaseContent(Node):
         if name != self.__name__:
             parent[name] = self
         content = parent[name]
-        content.update(**params)
 
         return content
 
