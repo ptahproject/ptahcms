@@ -51,18 +51,6 @@ class AddForm(form.Form):
         return self.tinfo.description
 
     def chooseName(self, **kw):
-        if kw.get('bloburi'):
-            filename = kw['bloburi']['filename']
-            name = filename.split('\\')[-1].split('/')[-1]
-
-            i = 1
-            n = name
-            while n in self.container:
-                i += 1
-                n = '%s-%s'%(name, i)
-
-            return n
-
         name = kw.get('title', '')
 
         name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
