@@ -104,7 +104,11 @@ class ApplicationFactory(object):
             Session.flush()
 
         root.__root_path__ = self.path
-        root.__parent__ = policy = self.policy(request)
+        policy = self.policy(request)
+        if self.parent_factory:
+            root.__parent__ = self.parent_factory()
+        else:
+            root.__parent__ = policy
         root.__default_root__ = self.default_root
 
         if request is not None:
