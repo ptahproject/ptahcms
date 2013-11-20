@@ -2,7 +2,7 @@
 import re
 import unicodedata
 from pyramid.decorator import reify
-from pyramid.httpexceptions import HTTPFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPFound, HTTPForbidden, HTTPNotFound
 
 from pyramid_mailer import get_mailer
 from pyramid_mailer.message import Message
