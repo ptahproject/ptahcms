@@ -102,7 +102,6 @@ class ApplicationFactory(object):
             Session = ptah.get_session()
             Session.add(root)
             Session.flush()
-            Session.close()
 
         root.__root_path__ = self.path
         policy = self.policy(request)
