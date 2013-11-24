@@ -39,7 +39,7 @@
       </thead>
       <tbody>
         <tr tal:repeat="principal view.principals">
-          <td>${principal.name}
+          <td>${principal}
             <input type="hidden" name="userid-${principal.__uri__}" value="on" />
           </td>
           <td>${principal.__type__.title}
