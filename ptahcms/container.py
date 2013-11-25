@@ -15,10 +15,6 @@ from ptahcms.interfaces import IContent, IContainer, NotFound, Error
 class BaseContainer(BaseContent):
     """ Content container implementation. """
 
-    _v_keys = None
-    _v_keys_loaded = False
-    _v_items = None
-
     _sql_keys = ptah.QueryFreezer(
         lambda: ptah.get_session().query(BaseContent.__name_id__)
             .filter(BaseContent.__parent_uri__ == sqla.sql.bindparam('uri')))
@@ -29,58 +25,27 @@ class BaseContainer(BaseContent):
 
     def keys(self):
         """Return an list of the keys in the container."""
-        if self._v_keys_loaded:
-            return self._v_keys
-        else:
-            if self._v_keys is None:
-                self._v_keys = [n for n, in
-                                self._sql_keys.all(uri=self.__uri__)]
 
-            self._v_keys_loaded = True
-            return self._v_keys
+        return self._sql_keys.all(uri=self.__uri__)
 
     def get(self, key, default=None):
         """Get a value for a key
 
         The default is returned if there is no value for the key.
         """
-        if self._v_items and key in self._v_items:
-            return self._v_items[key]
-
         item = self._sql_get_in_parent.first(key=key, parent=self.__uri__)
         if item is not None:
             item.__parent__ = self
-            if not self._v_items:
-                self._v_items = {key: item}
-            else:
-                self._v_items[key] = item
         return item
 
     def values(self):
         """Return an list of the values in the container."""
 
-        if self._v_keys_loaded and self._v_items:
-            if len(self._v_items) == len(self._v_keys):
-                return self._v_items.values()
-
         values = []
-        old_items = self._v_items
-
-        self._v_keys = keys = []
-        self._v_items = items = {}
 
         for item in self._sql_values.all(uri = self.__uri__):
             item.__parent__ = self
-            items[item.__name__] = item
-            keys.append(item.__name__)
             values.append(item)
-
-        if old_items:
-            for name, item in old_items.items():
-                if name not in items:
-                    keys.append(name)
-                    items[name] = item
-                    values.append(item)
 
         return values
 
@@ -98,16 +63,9 @@ class BaseContainer(BaseContent):
 
         A KeyError is raised if there is no value for the key.
         """
-        if self._v_items and key in self._v_items:
-            return self._v_items[key]
-
         try:
             item = self._sql_get_in_parent.one(key=key, parent=self.__uri__)
             item.__parent__ = self
-            if not self._v_items:
-                self._v_items = {key: item}
-            else:
-                self._v_items[key] = item
 
             return item
         except sqla.orm.exc.NoResultFound:
@@ -140,17 +98,8 @@ class BaseContainer(BaseContent):
         item.__path__ = '%s%s/'%(self.__path__, key)
 
         Session = ptah.get_session()
-        if item not in Session:
+        if item not in Session and not ptah.get_session().object_session(item):
             Session.add(item)
-
-        # temporary keys
-        if not self._v_items:
-            self._v_items = {key: item}
-        else:
-            self._v_items[key] = item
-
-        if key not in self._v_keys:
-            self._v_keys.append(key)
 
         # recursevly update children paths
         def update_path(container):
@@ -180,13 +129,7 @@ class BaseContainer(BaseContent):
             get_current_registry().notify(
                 ptah.events.ContentDeletingEvent(item))
 
-            name = item.__name__
-            if self._v_keys:
-                self._v_keys.remove(name)
-            if self._v_items and name in self._v_items:
-                del self._v_items[name]
-
-            Session = ptah.get_session()
+            Session = ptah.get_session().object_session(item)
             if item in Session:
                 try:
                     Session.delete(item)
@@ -222,10 +165,10 @@ class BaseContainer(BaseContent):
             raise Error("Name already in use.")
 
         self[name] = item
-        content = self[name]
-        content.update(**params)
 
-        return content
+        item.update(**params)
+
+        return item
 
     @action(permission=DeleteContent)
     def batchdelete(self, uris):
@@ -233,11 +176,11 @@ class BaseContainer(BaseContent):
         raise NotImplements() # pragma: no cover
 
     def contents(self):
-        """ Returns public or allowed content of the container """
-        for record in self.values():
-            if IContent.providedBy(record):
-                if record.public or ptah.check_permission(View, record):
-                    yield record
+        """ Returns public or viewable content of the container """
+        for content in self.values():
+            if IContent.providedBy(content):
+                if content.public or ptah.check_permission(View, content):
+                    yield content
 
     def info(self):
         info = super(BaseContainer, self).info()

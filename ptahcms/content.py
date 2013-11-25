@@ -152,9 +152,8 @@ class BaseContent(Node):
 
         if name != self.__name__:
             parent[name] = self
-        content = parent[name]
 
-        return content
+        return self
 
     def _extra_info(self, info):
         if self.__type__:
