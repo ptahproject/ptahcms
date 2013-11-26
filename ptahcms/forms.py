@@ -301,7 +301,7 @@ class ShareForm(form.Form):
                 if p.properties.get('roles') and p not in self.local_principals:
                     self.local_principals.append(p)
 
-        self.principals = sorted(self.local_principals, key=lambda p: p.name)
+        self.principals = sorted(self.local_principals, key=lambda p: str(p))
 
         super(ShareForm, self).__init__(context, request)
 
