@@ -25,8 +25,7 @@ class BaseContainer(BaseContent):
 
     def keys(self):
         """Return an list of the keys in the container."""
-
-        return self._sql_keys.all(uri=self.__uri__)
+        return [k for k, in self._sql_keys.all(uri=self.__uri__)]
 
     def get(self, key, default=None):
         """Get a value for a key
