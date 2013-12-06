@@ -378,14 +378,6 @@ class ContactForm(form.Form):
             'body', title='Your message', default='')
     )
 
-    @reify
-    def label(self):
-        return 'Contact'
-
-    @reify
-    def description(self):
-        return 'Please fill out the form to contact us.'
-
     def mail_submission(self, data):
         mailer = get_mailer(self.request)
         sender = '%s <%s>' % (data['name'], data['sender'])

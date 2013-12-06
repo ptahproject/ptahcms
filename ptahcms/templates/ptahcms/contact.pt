@@ -1,0 +1,12 @@
+<div i18n:domain='ptahcms'>
+  <div class="page-header">
+    <h1 i18n:translate="">Contact</h1>
+  </div>
+  <p class="lead" i18n:translate="">
+    Please fill out the form to contact us.
+  </p>
+
+  ${structure: request.render_tmpl(view.tmpl_view, view)}
+
+</div>
+
