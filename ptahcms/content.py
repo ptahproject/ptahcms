@@ -12,6 +12,7 @@ from ptahcms.interfaces import Error, IContent
 from ptahcms.security import action
 from ptahcms.permissions import DeleteContent, ModifyContent, RenameContent
 from ptahcms import form
+from ptahcms.settings import _
 
 
 class BaseContent(Node):
@@ -74,12 +75,16 @@ class BaseContent(Node):
                            default=text_type(''), index=True)
     __name_id__ = sqla.Column('name', sqla.Unicode(255), default=text_type(''))
 
-    title = sqla.Column(sqla.Unicode(1024), default=text_type(''))
+    title = sqla.Column(sqla.Unicode(1024), default=text_type(''),
+                        info={'title': _('Title')})
     description = sqla.Column(sqla.UnicodeText, default=text_type(''),
                               info = {'missing': '', 'field_type': 'textarea',
-                                      'default': '', 'required': False})
+                                      'default': '', 'required': False,
+                                      'title': _('Description')})
 
-    public = sqla.Column(sqla.Boolean, info={'required': False, 'missing': False, 'default': False})
+    public = sqla.Column(sqla.Boolean,
+                         info={'required': False, 'missing': False,
+                               'default': False, 'title': _('Public')})
     created = sqla.Column(sqla.DateTime)
     modified = sqla.Column(sqla.DateTime)
     effective = sqla.Column(sqla.DateTime)

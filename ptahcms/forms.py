@@ -11,6 +11,7 @@ import ptah
 from ptahcms import form
 from ptahcms.security import wrap
 from ptahcms.interfaces import ContentNameSchema, IApplicationRoot, IContainer
+from ptahcms.settings import _
 
 
 class AddForm(form.Form):
@@ -44,7 +45,7 @@ class AddForm(form.Form):
 
     @reify
     def label(self):
-        return 'Add <i>%s</i>' % self.tinfo.title
+        return _('Add ${title}', mapping={'title': self.tinfo.title})
 
     @reify
     def description(self):
@@ -85,7 +86,7 @@ class AddForm(form.Form):
         if self.name_show and '__name__' in data and data['__name__']:
             name = data['__name__']
             if name in self.container.keys():
-                error = form.Invalid('Name already in use')
+                error = form.Invalid(_('Name already in use'))
                 error.field = self.widgets['__name__']
                 errors.append(error)
 
@@ -97,7 +98,7 @@ class AddForm(form.Form):
         return wrap(self.container).create(
             self.tinfo.__uri__, name, **data)
 
-    @form.button('Add', actype=form.AC_PRIMARY)
+    @form.button(_('Add'), actype=form.AC_PRIMARY)
     def add_handler(self):
         data, errors = self.extract()
 
@@ -107,10 +108,10 @@ class AddForm(form.Form):
 
         content = self.create(**data)
 
-        self.request.add_message('New content has been created.', 'success')
+        self.request.add_message(_('New content has been created.'), 'success')
         return HTTPFound(location=self.get_next_url(content))
 
-    @form.button('Cancel')
+    @form.button(_('Cancel'))
     def cancel_handler(self):
         return HTTPFound(location='.')
 
@@ -127,7 +128,7 @@ class EditForm(form.Form):
 
     @reify
     def label(self):
-        return 'Modify <i>%s</i>' % self.tinfo.title
+        return _('Modify ${title}', mapping={'title': self.tinfo.title})
 
     @reify
     def fields(self):
@@ -143,7 +144,7 @@ class EditForm(form.Form):
     def apply_changes(self, **data):
         wrap(self.context).update(**data)
 
-    @form.button('Save', actype=form.AC_PRIMARY)
+    @form.button(_('Save'), actype=form.AC_PRIMARY)
     def save_handler(self):
         data, errors = self.extract()
 
@@ -153,10 +154,10 @@ class EditForm(form.Form):
 
         self.apply_changes(**data)
 
-        self.request.add_message('Changes have been saved.', 'success')
+        self.request.add_message(_('Changes have been saved.', 'success'))
         return HTTPFound(location=self.get_next_url())
 
-    @form.button('Cancel')
+    @form.button(_('Cancel'))
     def cancel_handler(self):
         return HTTPFound(location=self.get_next_url())
 
@@ -178,7 +179,7 @@ class RenameForm(form.Form):
 
     @reify
     def label(self):
-        return 'Rename <i>%s</i>' % self.tinfo.title
+        return _('Rename ${title}', mapping={'title': self.tinfo.title})
 
     @reify
     def description(self):
@@ -193,7 +194,7 @@ class RenameForm(form.Form):
 
     def update(self):
         if IApplicationRoot.implementedBy(self.tinfo.cls):
-            self.request.add_message('You can not rename ApplicationRoot.', 'info')
+            self.request.add_message(_('You can not rename Applications.'), 'info')
             return self.cancel_handler()
         return super(RenameForm, self).update()
 
@@ -203,7 +204,7 @@ class RenameForm(form.Form):
         name = data['__name__']
         if name != self.context.__name__:
             if self.container and name in self.container.keys():
-                error = form.Invalid('Name already in use')
+                error = form.Invalid(_('Name already in use'))
                 error.field = self.widgets['__name__']
                 errors.append(error)
 
@@ -211,7 +212,7 @@ class RenameForm(form.Form):
         name = data.get('__name__')
         return wrap(self.context).rename(name, **data)
 
-    @form.button('Rename', actype=form.AC_PRIMARY)
+    @form.button(_('Rename'), actype=form.AC_PRIMARY)
     def add_handler(self):
         data, errors = self.extract()
 
@@ -221,10 +222,10 @@ class RenameForm(form.Form):
 
         content = self.apply_changes(**data)
 
-        self.request.add_message('Content has been renamed.', 'success')
+        self.request.add_message(_('Content has been renamed.'), 'success')
         return HTTPFound(location=self.get_next_url(content))
 
-    @form.button('Cancel')
+    @form.button(_('Cancel'))
     def cancel_handler(self):
         return HTTPFound(location='.')
 
@@ -240,15 +241,15 @@ class DeleteForm(form.Form):
 
     @reify
     def label(self):
-        return 'Delete <i>%s</i>' % self.tinfo.title
+        return _('Delete ${title}', mapping={'title': self.tinfo.title})
 
     @reify
     def description(self):
-        return 'Are you sure you want to delete <i>%s</i>?' % self.context.title
+        return _('Are you sure you want to delete "${title}"?', mapping={'title': self.context.title})
 
     def update(self):
         if IApplicationRoot.implementedBy(self.tinfo.cls):
-            self.request.add_message('You can not delete Application.', 'info')
+            self.request.add_message(_('You can not delete Applications.'), 'info')
             return self.cancel_handler()
         return super(DeleteForm, self).update()
 
@@ -259,10 +260,10 @@ class DeleteForm(form.Form):
         super(DeleteForm, self).validate(data, errors)
 
         if IContainer.implementedBy(self.context.__type__.cls) and self.context.values():
-            error = form.Invalid(msg='Items found that depends on this content.')
+            error = form.Invalid(msg=_('This folder is not empty.'))
             errors.append(error)
 
-    @form.button('Delete', actype=form.AC_DANGER)
+    @form.button(_('Delete'), actype=form.AC_DANGER)
     def save_handler(self):
         data, errors = self.extract()
 
@@ -271,10 +272,10 @@ class DeleteForm(form.Form):
             return
 
         self.apply_changes()
-        self.request.add_message("Content has been removed.", 'success')
+        self.request.add_message(_("Content has been removed."), 'success')
         return HTTPFound(location='..')
 
-    @form.button('Cancel')
+    @form.button(_('Cancel'))
     def cancel_handler(self):
         return HTTPFound(location=self.get_cancel_url())
 
@@ -290,6 +291,7 @@ class ShareForm(form.Form):
     term = ''
 
     def __init__(self, context, request):
+        self.tinfo = context.__type__
         self.roles = [r for r in ptah.get_roles().values() if not r.system]
         self.local_roles = local_roles = context.__local_roles__
         self.local_principals = [ptah.resolve(principalUri)
@@ -307,7 +309,7 @@ class ShareForm(form.Form):
 
     @reify
     def label(self):
-        return 'Share <i>%s</i>' % self.context.title
+        return _('Share ${title}', mapping={'title': self.tinfo.title})
 
     @reify
     def description(self):
@@ -327,13 +329,13 @@ class ShareForm(form.Form):
 
         if not self.principals:
             if not self.term:
-                self.request.add_message('There are no local roles defined.', 'info')
+                self.request.add_message(_('There are no local roles defined.'), 'info')
             else:
-                self.request.add_message('There are no users or groups found.', 'info')
+                self.request.add_message(_('There are no users or groups found.'), 'info')
 
         return super(ShareForm, self).update()
 
-    @form.button('Save', actype=form.AC_PRIMARY)
+    @form.button(_('Save'), actype=form.AC_PRIMARY)
     def save(self):
         users = []
         userdata = {}
@@ -353,10 +355,10 @@ class ShareForm(form.Form):
                 del local_roles[uid]
 
         self.context.__local_roles__ = local_roles
-        self.request.add_message('Changes have been saved.', 'success')
+        self.request.add_message(_('Changes have been saved.'), 'success')
         return HTTPFound(location=self.request.resource_url(self.context))
 
-    @form.button('Cancel')
+    @form.button(_('Cancel'))
     def cancel_handler(self):
         return HTTPFound(location=self.get_next_url())
 
@@ -368,14 +370,14 @@ class ContactForm(form.Form):
 
     fields = form.Fieldset(
         form.TextField(
-            'name', title='Full Name'),
+            'name', title=_('Full Name')),
         form.TextField(
-            'sender', title='E-Mail Address',
+            'sender', title=_('E-Mail Address'),
             validator=form.Email()),
         form.TextField(
-            'subject', title='Sebject'),
+            'subject', title=_('Sebject')),
         form.TextAreaField(
-            'body', title='Your message', default='')
+            'body', title=_('Your message'), default='')
     )
 
     def mail_submission(self, data):
@@ -389,7 +391,7 @@ class ContactForm(form.Form):
             extra_headers=None, attachments=None)
         mailer.send(message)
 
-    @form.button('Send', actype=form.AC_PRIMARY)
+    @form.button(_('Send'), actype=form.AC_PRIMARY)
     def send_msg(self):
         data, errors = self.extract()
 
@@ -399,10 +401,10 @@ class ContactForm(form.Form):
         try:
             self.mail_submission(data)
             self.request.add_message(
-                """Your message has been sent.
-                   You can find a copy of it in your mailbox.""", 'success')
+                _("Your message has been sent. "
+                  "You can find a copy of it in your mailbox."), 'success')
             return HTTPFound(location=self.request.path_url)
         except:
             self.request.add_message(
-            """Oops, your message could not be sent.""", 'error')
+            _("""Oops, your message could not be sent."""), 'error')
             return

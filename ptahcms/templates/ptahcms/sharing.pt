@@ -1,13 +1,15 @@
+<tal:block i18n:domain="ptahcms">
 <div class="page-header">
-  <h2>${structure: view.label}</h2>
-  <p>${structure: view.description}</p>
+  <h1>${view.label}</h1>
 </div>
+<p>${view.description}</p>
 
 <div class="clearfix">
   <form class="form-inline" method="post" action="${request.url}">
     <div class="form-group">
-      <label class="sr-only" for="years">Search years</label>
-      <input type="search" class="form-control" style="width:12em;" name="term" list="principals" placeholder="Users and groups..." value="${view.term}" />
+      <label class="sr-only" for="term" i18n:translate="">Search term</label>
+      <input i18n:translate="" type="search" class="form-control" name="term" list="principals"
+             i18n:attributes="placeholder" placeholder="Users and groups..." value="${view.term}" />
         <datalist id="principals">
             <tal:block tal:repeat="principal view.principals">
               <option>${principal}</option>
@@ -20,7 +22,7 @@
       </button>
     </div>
     <div class="form-group">
-      <a class="btn" href="${request.url}">Show all local assigned roles</a>
+      <a i18n:translate="" class="btn" href="${request.url}">Show all local assigned roles</a>
     </div>
   </form>
 </div>
@@ -30,8 +32,8 @@
     <table class="table table-striped" tal:condition="view.principals">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
+          <th i18n:translate="">Name</th>
+          <th i18n:translate="">Type</th>
           <th tal:repeat="role view.roles">
             ${role.title}
           </th>
@@ -47,11 +49,10 @@
           <td tal:repeat="role view.roles" tal:define="local_roles view.local_roles.get(principal.__uri__, []);
                                                        global_roles view.get_global_roles(principal)">
             <input tal:condition="role.id in local_roles and not role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
-                    checked />
-            <input tal:condition="role.id in global_roles or role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
-                    checked disabled/>
-            <input tal:condition="not role.id in local_roles and not role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
-                    />
+                    checked="checked" />
+            <input tal:condition="role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}"
+                    checked="checked" disabled="disabled"/>
+            <input tal:condition="not role.id in local_roles and not role.id in global_roles" type="checkbox" name="${'user-%s-%s'%(principal.__uri__, role.id)}" />
           </td>
         </tr>
       </tbody>
@@ -59,3 +60,4 @@
     <tal:block content="structure request.render_tmpl(view.tmpl_actions, view)" />
   </form>
 </div>
+</tal:block>

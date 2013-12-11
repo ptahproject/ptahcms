@@ -72,13 +72,16 @@ from ptahcms.forms import ShareForm
 from ptahcms.forms import ContactForm
 
 
-def includeme(cfg):
+def includeme(config):
     # ptah rest api directive
     from ptahcms import restsrv
-    cfg.add_directive('ptah_init_rest', restsrv.enable_rest_api)
+    config.add_directive('ptah_init_rest', restsrv.enable_rest_api)
 
     # templates
-    cfg.add_layer('ptahcms', path='ptahcms:templates/ptahcms')
+    config.add_layer('ptahcms', path='ptahcms:templates/ptahcms')
 
-    cfg.include('ptahcms.manage')
-    cfg.scan()
+    config.include('ptahcms.manage')
+    config.scan('ptahcms')
+
+
+    config.add_translation_dirs('ptahcms:locale')

@@ -4,6 +4,7 @@ from pyramid.httpexceptions import HTTPServerError
 
 from ptah.interfaces import TypeException, Forbidden, NotFound
 from ptahcms import form
+from ptahcms.settings import _
 
 
 class Error(HTTPServerError, TypeException):
@@ -82,11 +83,11 @@ ContentSchema = form.Fieldset(
 
     form.TextField(
         name = 'title',
-        title = 'Title'),
+        title = _('Title')),
 
     form.TextAreaField(
         name = 'description',
-        title = 'Description',
+        title = _('Description'),
         missing = ''),
     )
 
@@ -94,7 +95,7 @@ ContentSchema = form.Fieldset(
 class SpecialSymbolsValidator(form.Regex):
     def __init__(self, msg=None):
         if msg is None:
-            msg = "Forbidden characters"
+            msg = _("Forbidden characters")
 
         super(SpecialSymbolsValidator, self).__init__(
             '^[a-z0-9-]+$', msg=msg)
@@ -104,8 +105,8 @@ ContentNameSchema = form.Fieldset(
 
     form.TextField(
         name = '__name__',
-        title = 'Name',
-        description = 'Name is the part that shows up in '\
-                      'the URL. Allowed character are "a-z", "0-9" and "-".',
+        title = _('Name'),
+        description = _('Name is the part that shows up in '\
+                      'the URL. Allowed character are "a-z", "0-9" and "-".'),
         validator = SpecialSymbolsValidator())
     )
