@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptahcms 0.5.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-10 23:44+0100\n"
+"POT-Creation-Date: 2013-12-17 20:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,116 +29,92 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: ptahcms/forms.py:48
-msgid "Add ${title}"
-msgstr ""
-
-#: ptahcms/forms.py:89 ptahcms/forms.py:207
+#: ptahcms/forms.py:81 ptahcms/forms.py:187
 msgid "Name already in use"
 msgstr ""
 
-#: ptahcms/forms.py:101
+#: ptahcms/forms.py:93
 msgid "Add"
 msgstr ""
 
-#: ptahcms/forms.py:111
+#: ptahcms/forms.py:103
 msgid "New content has been created."
 msgstr ""
 
-#: ptahcms/forms.py:114 ptahcms/forms.py:160 ptahcms/forms.py:228
-#: ptahcms/forms.py:278 ptahcms/forms.py:361
+#: ptahcms/forms.py:106 ptahcms/forms.py:148 ptahcms/forms.py:208
+#: ptahcms/forms.py:251 ptahcms/forms.py:326
 msgid "Cancel"
 msgstr ""
 
-#: ptahcms/forms.py:131
-msgid "Modify ${title}"
-msgstr ""
-
-#: ptahcms/forms.py:147 ptahcms/forms.py:338
+#: ptahcms/forms.py:135 ptahcms/forms.py:303
 msgid "Save"
 msgstr ""
 
-#: ptahcms/forms.py:157 ptahcms/forms.py:358
+#: ptahcms/forms.py:145 ptahcms/forms.py:323
 msgid "Changes have been saved."
 msgstr ""
 
-#: ptahcms/forms.py:182
-msgid "Rename ${title}"
-msgstr ""
-
-#: ptahcms/forms.py:197
+#: ptahcms/forms.py:177
 msgid "You can not rename Applications."
 msgstr ""
 
-#: ptahcms/forms.py:215
+#: ptahcms/forms.py:195
 msgid "Rename"
 msgstr ""
 
-#: ptahcms/forms.py:225
+#: ptahcms/forms.py:205
 msgid "Content has been renamed."
 msgstr ""
 
-#: ptahcms/forms.py:244
-msgid "Delete ${title}"
-msgstr ""
-
-#: ptahcms/forms.py:248
-msgid "Are you sure you want to delete \"${title}\"?"
-msgstr ""
-
-#: ptahcms/forms.py:252
+#: ptahcms/forms.py:225
 msgid "You can not delete Applications."
 msgstr ""
 
-#: ptahcms/forms.py:263
+#: ptahcms/forms.py:236
 msgid "This folder is not empty."
 msgstr ""
 
-#: ptahcms/forms.py:266
+#: ptahcms/forms.py:239
 msgid "Delete"
 msgstr ""
 
-#: ptahcms/forms.py:275
+#: ptahcms/forms.py:248
 msgid "Content has been removed."
 msgstr ""
 
-#: ptahcms/forms.py:312
-msgid "Share ${title}"
-msgstr ""
-
-#: ptahcms/forms.py:332
+#: ptahcms/forms.py:297
 msgid "There are no local roles defined."
 msgstr ""
 
-#: ptahcms/forms.py:334
+#: ptahcms/forms.py:299
 msgid "There are no users or groups found."
 msgstr ""
 
-#: ptahcms/forms.py:373
+#: ptahcms/forms.py:338
 msgid "Full Name"
 msgstr ""
 
-#: ptahcms/forms.py:375
+#: ptahcms/forms.py:340
 msgid "E-Mail Address"
 msgstr ""
 
-#: ptahcms/forms.py:378
+#: ptahcms/forms.py:343
 msgid "Sebject"
 msgstr ""
 
-#: ptahcms/forms.py:380
+#: ptahcms/forms.py:345
 msgid "Your message"
 msgstr ""
 
-#: ptahcms/forms.py:394
+#: ptahcms/forms.py:359
 msgid "Send"
 msgstr ""
 
-#: ptahcms/forms.py:404
+#: ptahcms/forms.py:369
 msgid "Your message has been sent. You can find a copy of it in your mailbox."
 msgstr ""
 
-#: ptahcms/forms.py:409
+#: ptahcms/forms.py:374
 msgid "Oops, your message could not be sent."
 msgstr ""
 
@@ -164,12 +140,40 @@ msgstr ""
 msgid "Name of your site."
 msgstr ""
 
+#: ptahcms/templates/ptahcms/add.pt:3
+msgid "Add ${title}"
+msgstr ""
+
 #: ptahcms/templates/ptahcms/contact.pt:3
 msgid "Contact"
 msgstr ""
 
 #: ptahcms/templates/ptahcms/contact.pt:5
 msgid "Please fill out the form to contact us."
+msgstr ""
+
+#: ptahcms/templates/ptahcms/delete.pt:3
+msgid "Delete ${title}"
+msgstr ""
+
+#: ptahcms/templates/ptahcms/delete.pt:5
+msgid "Are you sure you want to delete ${title}?"
+msgstr ""
+
+#: ptahcms/templates/ptahcms/edit.pt:3
+msgid "Edit ${title}"
+msgstr ""
+
+#: ptahcms/templates/ptahcms/rename.pt:3
+msgid "Rename ${title}"
+msgstr ""
+
+#: ptahcms/templates/ptahcms/sharing.pt:3
+msgid "Share ${title}"
+msgstr ""
+
+#: ptahcms/templates/ptahcms/sharing.pt:5
+msgid "You can control the access permissions for ${title} using the list below."
 msgstr ""
 
 #: ptahcms/templates/ptahcms/sharing.pt:10
