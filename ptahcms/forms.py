@@ -43,14 +43,6 @@ class AddForm(form.Form):
     def fields(self):
         return self.tinfo.fieldset
 
-    @reify
-    def label(self):
-        return _('Add ${title}', mapping={'title': self.tinfo.title})
-
-    @reify
-    def description(self):
-        return self.tinfo.description
-
     def chooseName(self, **kw):
         name = kw.get('title', '')
 
@@ -127,10 +119,6 @@ class EditForm(form.Form):
         super(EditForm, self).__init__(context, request)
 
     @reify
-    def label(self):
-        return _('Modify ${title}', mapping={'title': self.tinfo.title})
-
-    @reify
     def fields(self):
         return self.tinfo.fieldset
 
@@ -176,14 +164,6 @@ class RenameForm(form.Form):
         self.container = context.__parent_ref__
         self.tinfo = context.__type__
         super(RenameForm, self).__init__(context, request)
-
-    @reify
-    def label(self):
-        return _('Rename ${title}', mapping={'title': self.tinfo.title})
-
-    @reify
-    def description(self):
-        return self.tinfo.description
 
     def form_content(self):
         data = {}
@@ -234,18 +214,11 @@ class RenameForm(form.Form):
 
 
 class DeleteForm(form.Form):
+    klass=""
 
     def __init__(self, context, request):
         self.tinfo = context.__type__
         super(DeleteForm, self).__init__(context, request)
-
-    @reify
-    def label(self):
-        return _('Delete ${title}', mapping={'title': self.tinfo.title})
-
-    @reify
-    def description(self):
-        return _('Are you sure you want to delete "${title}"?', mapping={'title': self.context.title})
 
     def update(self):
         if IApplicationRoot.implementedBy(self.tinfo.cls):
@@ -306,14 +279,6 @@ class ShareForm(form.Form):
         self.principals = sorted(self.local_principals, key=lambda p: str(p))
 
         super(ShareForm, self).__init__(context, request)
-
-    @reify
-    def label(self):
-        return _('Share ${title}', mapping={'title': self.tinfo.title})
-
-    @reify
-    def description(self):
-        return ''
 
     def get_global_roles(self, principal):
         return principal.properties.get('roles', []) if hasattr(principal, 'properties') else []

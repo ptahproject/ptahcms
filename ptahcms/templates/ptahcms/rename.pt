@@ -1,0 +1,8 @@
+<tal:block i18n:domain="ptahcms">
+<div class="page-header">
+  <h1 i18n:translate="">Rename <span tal:replace="view.tinfo.title" i18n:name="title" /></h1>
+</div>
+<p class="lead" tal:condition="view.tinfo.description">${view.tinfo.description}</p>
+
+${structure:request.render_tmpl(view.tmpl_view, view)}
+</tal:block>

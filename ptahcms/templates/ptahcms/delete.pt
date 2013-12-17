@@ -1,0 +1,8 @@
+<tal:block i18n:domain="ptahcms">
+<div class="page-header">
+  <h1 i18n:translate="">Delete <span tal:replace="view.tinfo.title" i18n:name="title" /></h1>
+</div>
+<p class="lead" i18n:translate="">Are you sure you want to delete <em i18n:name="title">${context.title}</em>?</p>
+
+${structure:request.render_tmpl(view.tmpl_view, view)}
+</tal:block>
