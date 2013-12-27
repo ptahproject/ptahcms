@@ -176,10 +176,15 @@ class BaseContainer(BaseContent):
 
     def contents(self):
         """ Returns public or viewable content of the container """
+
+        contents = []
+        
         for content in self.values():
             if IContent.providedBy(content):
                 if content.public or ptah.check_permission(View, content):
-                    yield content
+                    contents.append(content)
+
+        return contents
 
     def info(self):
         info = super(BaseContainer, self).info()
