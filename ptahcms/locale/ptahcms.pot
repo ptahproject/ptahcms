@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ptahcms 0.5.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-17 20:03+0100\n"
+"POT-Creation-Date: 2013-12-29 22:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,92 +29,92 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: ptahcms/forms.py:81 ptahcms/forms.py:187
+#: ptahcms/forms.py:84 ptahcms/forms.py:190
 msgid "Name already in use"
 msgstr ""
 
-#: ptahcms/forms.py:93
+#: ptahcms/forms.py:96
 msgid "Add"
 msgstr ""
 
-#: ptahcms/forms.py:103
+#: ptahcms/forms.py:106
 msgid "New content has been created."
 msgstr ""
 
-#: ptahcms/forms.py:106 ptahcms/forms.py:148 ptahcms/forms.py:208
-#: ptahcms/forms.py:251 ptahcms/forms.py:326
+#: ptahcms/forms.py:109 ptahcms/forms.py:151 ptahcms/forms.py:211
+#: ptahcms/forms.py:254 ptahcms/forms.py:329
 msgid "Cancel"
 msgstr ""
 
-#: ptahcms/forms.py:135 ptahcms/forms.py:303
+#: ptahcms/forms.py:138 ptahcms/forms.py:306
 msgid "Save"
 msgstr ""
 
-#: ptahcms/forms.py:145 ptahcms/forms.py:323
+#: ptahcms/forms.py:148 ptahcms/forms.py:326
 msgid "Changes have been saved."
 msgstr ""
 
-#: ptahcms/forms.py:177
+#: ptahcms/forms.py:180
 msgid "You can not rename Applications."
 msgstr ""
 
-#: ptahcms/forms.py:195
+#: ptahcms/forms.py:198
 msgid "Rename"
 msgstr ""
 
-#: ptahcms/forms.py:205
+#: ptahcms/forms.py:208
 msgid "Content has been renamed."
 msgstr ""
 
-#: ptahcms/forms.py:225
+#: ptahcms/forms.py:228
 msgid "You can not delete Applications."
 msgstr ""
 
-#: ptahcms/forms.py:236
+#: ptahcms/forms.py:239
 msgid "This folder is not empty."
 msgstr ""
 
-#: ptahcms/forms.py:239
+#: ptahcms/forms.py:242
 msgid "Delete"
 msgstr ""
 
-#: ptahcms/forms.py:248
+#: ptahcms/forms.py:251
 msgid "Content has been removed."
 msgstr ""
 
-#: ptahcms/forms.py:297
+#: ptahcms/forms.py:300
 msgid "There are no local roles defined."
 msgstr ""
 
-#: ptahcms/forms.py:299
+#: ptahcms/forms.py:302
 msgid "There are no users or groups found."
 msgstr ""
 
-#: ptahcms/forms.py:338
+#: ptahcms/forms.py:341
 msgid "Full Name"
 msgstr ""
 
-#: ptahcms/forms.py:340
+#: ptahcms/forms.py:343
 msgid "E-Mail Address"
 msgstr ""
 
-#: ptahcms/forms.py:343
+#: ptahcms/forms.py:346
 msgid "Sebject"
 msgstr ""
 
-#: ptahcms/forms.py:345
+#: ptahcms/forms.py:348
 msgid "Your message"
 msgstr ""
 
-#: ptahcms/forms.py:359
+#: ptahcms/forms.py:362
 msgid "Send"
 msgstr ""
 
-#: ptahcms/forms.py:369
+#: ptahcms/forms.py:372
 msgid "Your message has been sent. You can find a copy of it in your mailbox."
 msgstr ""
 
-#: ptahcms/forms.py:374
+#: ptahcms/forms.py:377
 msgid "Oops, your message could not be sent."
 msgstr ""
 
