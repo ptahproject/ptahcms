@@ -76,7 +76,7 @@ class Node(ptah.get_base()):
 
     __children__ = sa.orm.relationship(
         'Node', backref=sa.orm.backref('__parent_ref__', remote_side=[__uri__]),
-        cascade='all')
+        cascade='all', lazy='joined', join_depth=1)
 
     __mapper_args__ = {'polymorphic_on': __type_id__, 'with_polymorphic': '*'}
 
