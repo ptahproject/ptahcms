@@ -91,6 +91,8 @@ class BaseContent(Node):
     expires = sqla.Column(sqla.DateTime)
     lang = sqla.Column(sqla.String(12), default='en', info={'skip':True})
 
+    __mapper_args__ = {'with_polymorphic': '*'}
+
     # sql queries
     _sql_get = ptah.QueryFreezer(
         lambda: ptah.get_session().query(BaseContent)
